@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Attempts</title>
+    <style>
+        
+        body {
+            text-align: center;
+            font-size: 20px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            
+        }
+        h1 {
+            color: #333;
+        }
+
+        #login-table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        // Fetch and insert the header using JavaScript
+        fetch('header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
+    </script>
+    <h1>Login Attempts</h1>
+    <table id="login-table">
+        <tr>
+            <th>User ID</th>
+            <th>Login Time</th>
+        </tr>
+        <% loginAttempts.forEach(attempt => { %>
+            <tr>
+                <td><%= attempt.user_id %></td>
+                <td><%= new Date(attempt.login_time).toLocaleString() %></td>
+            </tr>
+        <% }); %>
+    </table>
+    
+</body>
+</html>

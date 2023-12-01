@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Save Names</title>
+    <style>
+        /* Styles for the pop-up box overlay */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+        }
+
+        /* Styles for the pop-up box */
+        .popup-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            z-index: 1;
+        }
+        body {
+            font-size: 24px;
+        }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .square-form {
+            font-size: 40px;
+            text-align: center;
+            width: 500px; /* Adjust the width to your preference */
+            height: 320px; /* Set the height to match the width for a square */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+
+        }
+
+        /* Optional: Style the form elements inside the square */
+        .square-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        .square-form button {
+            width: 20%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+
+    
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+        }
+
+        #errorMessage {
+            font-size: smaller;
+            color: red;
+            display: none;
+        }
+
+        .add-user-button {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+        }
+
+        .new-response-button {
+            margin-top: 10px;
+            padding: 15px 30px; /* Larger size */
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <form class="square-form" id="nameForm" action="/save" method="post" onsubmit="return validateForm();">
+        
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required>
+        <br>
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required>
+        <br>
+        <button type="submit">Login</button>
+        <br>
+        <p id="errorMessage" style="color: red; display: none;">Incorrect Information</p>
+    </form>
+    <button class="add-user-button" onclick="goToAddUser()">Add New User</button>
+
+    <div class="overlay" id="overlay" onclick="closePopup()"></div>
+    
+    <div class="popup-box" id="popup">
+        <h2 id="greetingMessage">Pop-up Content</h2>
+        <p id="visitsMessage">This is a pop-up box.</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+    <script>
+        const visitsUntilReward = 16;
+        function openPopup(firstName, lastName, visits) {
+            document.getElementById("greetingMessage").textContent = `Welcome ${firstName} ${lastName}!`;
+            document.getElementById("visitsMessage").textContent = `You have ${visitsUntilReward - (visits % visitsUntilReward)} classes until your next reward`;
+
+            document.getElementById("overlay").style.display = "block";
+            document.getElementById("popup").style.display = "block";
+            clearInputAndMessage();
+        }
+
+        function closePopup() {
+            document.getElementById("overlay").style.display = "none";
+            document.getElementById("popup").style.display = "none";
+        }
+        function validateForm() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            updateVisitCount(firstName, lastName);
+            return false;
+        }
+
+        function updateVisitCount(firstName, lastName) {
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/updatevisit', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        const response = JSON.parse(xhr.responseText);
+                        clearInputAndMessage()
+                        openPopup(firstName, lastName, response.visits)
+                    } else {
+                        document.getElementById('errorMessage').style.display = 'block';
+                        document.getElementById('errorMessage').textContent = xhr.responseText
+                    }
+                }
+            };
+            const params = `firstName=${firstName}&lastName=${lastName}`;
+            xhr.send(params);
+        }
+
+        function goToAddUser() {
+            window.location.href = '/viewusers';
+        }
+
+        function clearInputAndMessage() {
+            document.getElementById('firstName').value = '';
+            document.getElementById('lastName').value = '';
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

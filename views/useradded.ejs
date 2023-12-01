@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User added Page</title>
+    <style>
+        body {
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .main-text {
+            font-size: 36px;
+            margin: 50px;
+        }
+
+        .back-button {
+            padding: 15px 30px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        // Fetch and insert the header using JavaScript
+        fetch('header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
+    </script>
+    <div class="main-text"><%= first%> <%= last%> Added Sucessfully</div>
+
+    <script>
+        function goToLoginPage() {
+            window.location.href = '/';
+        }
+        function goToControlPage() {
+            window.location.href = '/viewusers';
+        }
+    </script>
+</body>
+</html>

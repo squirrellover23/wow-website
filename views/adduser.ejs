@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Users</title>
+    <link rel="stylesheet" href="/addusers.css">
+    
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        // Fetch and insert the header using JavaScript
+        fetch('header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
+    </script>
+    <h3 id="add-user-title">Add New User</h3>
+    <div class="centered-container">
+        <form id="newUserForm" action="/addnewuser" method="post" onsubmit="return validateForm();">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <br>
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <br>
+            <label for="classIn">Class:</label>
+            <input type="text" id="classIn" name="classIn" required>
+            <br>
+            <label for="dropdown">Select Class:</label>
+            <select id="dropdown" name="dropdown">
+                <% classes.forEach(function(thing) { %>
+                    <option value="<%= thing %>"><%= thing %></option>
+                <% }); %>
+                <!-- Add more options as needed -->
+            </select>
+            <br>
+            <button type="submit">Add User</button>
+
+            <p class="error-message" id="errorMessage">User Already Exists</p>
+        </form>
+    </div>
+    
+</body>
+
+
+<script>
+    function confirmDelete() {
+        return confirm('Are you sure you want to delete this user?');
+    }
+    function validateForm() {
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        checkUserExistence(firstName, lastName);
+        return (document.getElementById('errorMessage').style.display === 'none');
+    }
+    function checkUserExistence(firstName, lastName) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', `/checkuser?firstName=${firstName}&lastName=${lastName}`, true);
+        xhr.onreadystatechange = function() {
+            document.getElementById('errorMessage').style.display = 'none';
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    document.getElementById('errorMessage').style.display = 'block';
+                }
+            }
+        };
+        xhr.send();
+
+    }
+</script>
+</html>
