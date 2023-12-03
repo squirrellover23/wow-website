@@ -4,7 +4,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const ejs = require('ejs'); // Require EJS
 
-
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
