@@ -7,7 +7,7 @@
         }
 
     ],
-    "public":[
+    "routes":[
         {
             "src":"/(.*)",
             "dest": "/"
