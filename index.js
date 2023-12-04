@@ -26,6 +26,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+app.get("/", (req, res) => {
+    res.send("Express on Vercel");
+});
+
+
 app.post('/updatevisit', (req, res) => {
     const { firstName, lastName, action } = req.body;
     db.get("SELECT * FROM names WHERE firstName = ? AND lastName = ?", [firstName, lastName], (err, row) => {
