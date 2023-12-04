@@ -194,3 +194,4 @@ app.get('/login-attempts', (req, res) => {
 app.listen(port, () => {
     console.log(`Server is running on port ${port} at http://localhost:3000/`);
 });
+module.exports = app;
