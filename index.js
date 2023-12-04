@@ -2,7 +2,6 @@ const express = require('express');
 const sqlite3 = require('sqlite3');
 const path = require('path');
 const bodyParser = require('body-parser');
-const ejs = require('ejs'); // Require EJS
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -10,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-const port = process.env.PORT || 3000;
+const port = 5000;
 
 // Configure SQLite database
 const db = new sqlite3.Database('./database.db');
@@ -27,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.get("/", (req, res) => {
-    res.send("Express on Vercel");
+    res.sendFile(path.join(__dirname, 'public/home.html'));
 });
 
 
@@ -197,6 +196,6 @@ app.get('/login-attempts', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is running on port ${port} at http://localhost:3000/`);
+    console.log(`Server is running on port ${port}`);
 });
 module.exports = app;
