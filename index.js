@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-const port = 3000;
+const port = 80;
 
 // Configure SQLite database
 const db = new sqlite3.Database('./database.db');
