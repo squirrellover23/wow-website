@@ -2,8 +2,7 @@
 <html>
 <head>
     <title>View Users</title>
-    <link rel="stylesheet" href="/addusers.css">
-    
+    <link rel="stylesheet" href="stylesheets/addusers.css">
 </head>
 <body>
     <div id="header-container"></div>
@@ -17,7 +16,7 @@
     </script>
     <h3 id="add-user-title">Add New User</h3>
     <div class="centered-container">
-        <form id="newUserForm" action="/addnewuser" method="post" onsubmit="return validateForm();">
+        <form id="newUserForm" action="/addnewuser" method="post">
             <label for="firstName">First Name:</label>
             <input type="text" id="firstName" name="firstName" required>
             <br>

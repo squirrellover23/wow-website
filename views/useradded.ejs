@@ -12,11 +12,6 @@
             font-size: 36px;
             margin: 50px;
         }
-
-        .back-button {
-            padding: 15px 30px;
-            font-size: 24px;
-        }
     </style>
 </head>
 <body>
@@ -29,15 +24,6 @@
                 document.getElementById('header-container').innerHTML = html;
             });
     </script>
-    <div class="main-text"><%= first%> <%= last%> Added Sucessfully</div>
-
-    <script>
-        function goToLoginPage() {
-            window.location.href = '/';
-        }
-        function goToControlPage() {
-            window.location.href = '/viewusers';
-        }
-    </script>
+    <div class="main-text"><%= message%></div>
 </body>
 </html>

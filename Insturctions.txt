@@ -1,5 +1,0 @@
-To run the server:
-- open the cmd prompt
-- cd to C:\Users\peter\OneDrive\Documents\new_project (or where ever the new_project folder is)
-- run the server with the comand: node server.js
-- stop the server with ctrl + c
