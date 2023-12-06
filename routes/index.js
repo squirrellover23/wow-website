@@ -32,8 +32,7 @@ router.post('/updatevisit', (req, res) => {
                     } 
                 });
                 const currentDate = new Date().toISOString();
-                const userId = `${row.firstName} ${row.lastName}`;  // Assuming the user ID is in the "names" table
-                db.run("INSERT INTO login_logs (user_id, login_time) VALUES (?, ?)", [userId, currentDate], (err) => {
+                db.run("INSERT INTO login_logs (class, firstName, lastName, login_time) VALUES (?, ?, ?, ?)", [row.class, firstName, lastName, currentDate], (err) => {
                     if (err) {
                         res.status(500).send('Error loging visit.');
                         error = false
@@ -51,8 +50,16 @@ router.post('/updatevisit', (req, res) => {
     }); 
 });
 router.post('/addnewuser', (req, res) => {
-    const { firstName, lastName, classIn } = req.body;
+    let { firstName, lastName, classIn } = req.body;
+    firstName = firstName.trim()
+    lastName = lastName.trim()
+    classIn = classIn.trim()
 
+    if (!firstName ||!lastName) {
+        res.render('useradded', { message: `Please Enter a vaild Name` });
+    } else if(!classIn){
+        res.render('useradded', { message: `Please Enter a vaild Class` });
+    }
     // Check if the user already exists in the database
     db.get("SELECT * FROM names WHERE firstName = ? AND lastName = ?", [firstName, lastName], (err, row) => {
         if (err) {
@@ -156,18 +163,59 @@ router.post('/deleteuser', (req, res) => {
     });
 });
 
+
 router.get('/login-attempts', (req, res) => {
-    // Retrieve all login attempts from the login_logs table
-    db.all('SELECT * FROM login_logs', (err, rows) => {
-      if (err) {
-        console.error('Error retrieving login attempts:', err.message);
-        res.status(500).send('Internal Server Error');
-      } else {
-        // Render the login attempts page and pass the login attempts data to the view
-        res.render('login-attempts', { loginAttempts: rows });
-      }
+    // Check if user_id, start date, and end date are provided in the query parameters
+    const { user_id, user_class, startDate, endDate } = req.query;
+    let query = 'SELECT * FROM login_logs WHERE 1=1'; // 1=1 for dynamic WHERE clause building
+    const params = [];
+
+    // If user_id is provided, filter by user_id
+    if (user_id) {
+      query += ' AND firstName = ? AND lastName = ?';
+      params.push.apply(params, user_id.split(' '));
+    }
+    // If class is provided, filter by class
+    if (user_class) {
+        query += ' AND class = ?';
+        params.push(user_class);
+    }
+  
+    // If start and end dates are provided, filter by that date range
+    if (startDate) {
+        query += ` AND login_time >= ?`;
+        params.push(startDate)
+    }
+
+    if (endDate) {
+        // Adjust the endDate to be inclusive by adding one day
+        const nextDay = new Date(endDate);
+        nextDay.setDate(nextDay.getDate() + 2);
+        query += ` AND login_time <= ?`;
+        params.push(`${nextDay.toISOString().split('T')[0]}`);
+        console.log(`${nextDay.toISOString().split('T')[0]}`);
+
+    }
+  
+    // Retrieve login attempts based on the query
+    db.all(query, params, (err, rows) => {
+        if (err) {  
+            console.log('Query: ', query)
+            console.error('Error retrieving login attempts:', err.message);
+            res.status(500).send('Internal Server Error');
+        } else {
+            getUniqueValues('class', 'names', (err, result) => {
+                if (err) {
+                    res.status(500).send('Error fetching class data.');
+                }
+                res.render('login-attempts', { loginAttempts: rows, user_id, user_class, startDate, endDate, classes: result });
+            });
+            // Render the login attempts page and pass the login attempts data to the view
+        }
     });
-});
+  });
+  
+  
 
 
 module.exports = router;

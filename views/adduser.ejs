@@ -28,11 +28,13 @@
             <br>
             <label for="dropdown">Select Class:</label>
             <select id="dropdown" name="dropdown">
+                <option value="" selected disabled></option>
                 <% classes.forEach(function(thing) { %>
                     <option value="<%= thing %>"><%= thing %></option>
                 <% }); %>
                 <!-- Add more options as needed -->
             </select>
+        
             <br>
             <button type="submit">Add User</button>
 
@@ -46,26 +48,6 @@
 <script>
     function confirmDelete() {
         return confirm('Are you sure you want to delete this user?');
-    }
-    function validateForm() {
-        const firstName = document.getElementById('firstName').value;
-        const lastName = document.getElementById('lastName').value;
-        checkUserExistence(firstName, lastName);
-        return (document.getElementById('errorMessage').style.display === 'none');
-    }
-    function checkUserExistence(firstName, lastName) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `/checkuser?firstName=${firstName}&lastName=${lastName}`, true);
-        xhr.onreadystatechange = function() {
-            document.getElementById('errorMessage').style.display = 'none';
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    document.getElementById('errorMessage').style.display = 'block';
-                }
-            }
-        };
-        xhr.send();
-
     }
 </script>
 </html>
