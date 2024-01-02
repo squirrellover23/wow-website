@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Information</title>
+    <link rel="stylesheet" href="/stylesheets/userinfo.css">
+
+    <!-- Include your stylesheets and other head elements here -->
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        fetch('/header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
+    </script>
+    <main>
+    <h1>User Information for <%= user.firstName %> <%= user.lastName %></h1>
+    <ul>
+        <li>Total Classes Attended: <%= user.total_visits %></li>
+        <li>Classes Since Last Voucher: <%= user.visits_since_vouch %></li>
+        <li>Vouchers Received: <%= user.vouchers_received %></li>
+        <li>Class: <%= user.class %></li>
+    </ul>
+    <form action="/givevoucher" method="post">
+        <input type="hidden" name="firstName" value="<%= user.firstName %>">
+        <input type="hidden" name="lastName" value="<%= user.lastName %>">
+        <button type="submit" class="<%= (user.visits_since_vouch >= 16) ? 'green-button' : 'voucher-button' %>">Rercord Voucher</button>
+    </form>
+
+    <form action="/deleteuser" method="post" onsubmit="return confirmDelete();">
+        <input type="hidden" name="firstName" value="<%= user.firstName %>">
+        <input type="hidden" name="lastName" value="<%= user.lastName %>">
+        <button type="submit" class="delete-button">Delete User</button>
+    </form>
+    <h2>Login History</h2>
+    <table id="login-table">
+        <thead>
+            <tr>
+                <th>Class</th>
+                <th>Login Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% logins.forEach(login => { %>
+                <tr>
+                    <td><%= login.class %></td>
+                    <td><%= login.login_time %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <h2>Voucher History</h2>
+    <table id="voucher-table">
+        <thead>
+        <tr>
+            <th>Time Recorded</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% vouchers.forEach(voucher => { %>
+            <tr>
+            <td><%= voucher.time_given %></td>
+            </tr>
+        <% }); %>
+        </tbody>
+    </table>
+    </main>
+    <!-- Include your scripts and other body elements here -->
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this user?');
+        }
+        function get_time(time){
+            return new Date(time).toLocaleString()
+        }
+        
+        function change_table_time (table){
+            if (table){
+                for (let i = 1; i < table.rows.length; i++) {
+                    let row = table.rows[i];
+                    let cell = row.cells[row.cells.length - 1];
+                    cell.innerHTML = get_time(cell.innerHTML)
+                }
+            }
+        }
+        let table1 = document.getElementById('login-table')
+        let table2 = document.getElementById('voucher-table')
+        change_table_time(table1)
+        change_table_time(table2)
+        
+    </script>
+</body>
+</html>

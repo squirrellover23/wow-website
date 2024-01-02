@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>View Users</title>
+    <title>Add User</title>
     <link rel="stylesheet" href="stylesheets/addusers.css">
 </head>
 <body>
@@ -24,17 +24,12 @@
             <input type="text" id="lastName" name="lastName" required>
             <br>
             <label for="classIn">Class:</label>
-            <input type="text" id="classIn" name="classIn" required>
-            <br>
-            <label for="dropdown">Select Class:</label>
-            <select id="dropdown" name="dropdown">
-                <option value="" selected disabled></option>
-                <% classes.forEach(function(thing) { %>
-                    <option value="<%= thing %>"><%= thing %></option>
+            <select id="classIn" name="classIn">
+                <option value="" disabled>Select a class</option>
+                <% classes.forEach(function(classItem) { %>
+                    <option value="<%= classItem.className %>"><%= classItem.className %></option>
                 <% }); %>
-                <!-- Add more options as needed -->
-            </select>
-        
+            </select>  
             <br>
             <button type="submit">Add User</button>
 

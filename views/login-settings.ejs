@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Settings</title>
+    <link rel="stylesheet" href="stylesheets/login-settings.css">
+</head>
+<body>
+    <div id="header-container"></div>
+    <script>
+        fetch('header.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('header-container').innerHTML = html;
+            });
+    </script>
+    
+    <h2 class="main-text">Choose The Class you want to take roll for</h2>
+
+    
+    <form action="/loginPage" method="get" onsubmit="return validateForm()">
+        <h3>Registered Classes</h3>
+        <input type="radio" name="classChosen" value="registered" id="registered">
+        <label for="registered">Registered Classes</label>
+        <br>
+        <h3>Unregistered Classes</h3>
+        <% classes.forEach(function(classItem) { %>
+            <input type="radio" name="classChosen" value="<%= classItem.className %>" id="<%= classItem.className %>">
+            <label for="<%= classItem.className %>"><%= classItem.className %></label>
+            <br>
+        <% }); %>
+        <button type="submit" id="continueButton" disabled>Continue</button>
+    </form>
+    
+    <script>
+        function validateForm() {
+            var selectedOption = document.querySelector('input[name="classChosen"]:checked');
+    
+            if (!selectedOption) {
+                alert("Please select a class before continuing.");
+                return false;
+            }
+    
+            return true;
+        }
+    
+        // Enable the continue button when an option is selected
+        var radioButtons = document.querySelectorAll('input[name="classChosen"]');
+        radioButtons.forEach(function (radioButton) {
+            radioButton.addEventListener('change', function () {
+                document.getElementById('continueButton').disabled = false;
+            });
+        });
+    </script>
+</body>
+</html>

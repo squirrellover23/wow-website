@@ -1,0 +1,75 @@
+/* stylesheets/login-settings.css */
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+
+.main-text {
+    color: #333;
+    text-align: center;
+
+}
+
+
+form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+h3 {
+    color: #333;
+    margin-top: 10px;
+    text-align: center;
+}
+
+input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+label {
+    display: block;
+    margin-bottom: 0px; /* Adjusted margin */
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Style for selected option */
+input[type="radio"]:checked + label {
+    background-color: #3498db;
+    color: #fff;
+    border-color: #3498db;
+}
+
+button[type="submit"] {
+    display: inline-block; /* Display as an inline block to adjust width */
+    width: 50%; /* Set width to 50% of the form */
+    padding: 10px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    background-color: #4caf50;
+
+    
+}
+
+button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+button[type="submit"]:disabled {
+    background-color: #ddd; /* Light grey color for disabled state */
+    color: #666; /* Dark grey text color for disabled state */
+}

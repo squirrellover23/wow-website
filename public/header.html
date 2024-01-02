@@ -1,41 +1,53 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
-        body {
+
+        #container {
             text-align: center;
             font-family: Arial, sans-serif;
             margin: 0;
+            padding: 0;
+        }
             
-        }
-
         header {
-            background-color: #333;
-            padding: 10px;
+            background-color: #191248;
+            padding: 23px;
             text-align: center;
+            position: relative; /* Set position to relative for absolute positioning of the logo */
         }
 
-        a {
+        #logo {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            max-height: 50px; /* Adjust the max height as needed */
+        }
+
+        .head-link {
             color: white;
             text-decoration: none;
             margin: 0 15px;
             font-size: 18px;
         }
 
-        a:hover {
+        .head-link:hover {
             border-bottom: 2px solid white;
         }
     </style>
 </head>
 <body>
+    <div id="container">
     <header>
-        <a href="/viewusers">All Users</a>
-        <a href="/adduser">Add User</a>
-        <a href="/login-attempts">All Logins</a>
-        <a href="/">Login page</a>
+        <img id="logo" src="/images/small-logo.png" alt="Logo">
+        <a class="head-link" href="/viewusers">All Users</a>
+        <a class="head-link" href="/adduser">Add User</a>
+        <a class="head-link" href="/login-attempts">All Logins</a>
+        <a class="head-link" href="/classes">Classes</a>
+        <a class="head-link" href="/">Login page</a>
     </header>
+    </div>
 </body>
 </html>

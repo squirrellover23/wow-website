@@ -23,14 +23,14 @@
 
     <form action="/login-attempts" method="GET">
         <h2 style="font-size: 20px; margin-bottom: 15px; margin-top: 0px;">Filter Logins</h2>
-        <label for="user_id">User ID:</label>
-        <input type="text" id="user_id" name="user_id" value="<%= user_id %>">
+        <label for="user_id">User Name</label>
+        <input type="text" id="user_id" name="user_id" placeholder="First Last" value="<%= user_id %>">
   
         <label for="user_class">Class:</label>
         <select id="user_class" name="user_class" value="<%= user_class %>">
             <option value=""></option>
             <% classes.forEach(function(thing) { %>
-                <option value="<%= thing %>"><%= thing %></option>
+                <option value="<%= thing.className %>"><%= thing.className %></option>
             <% }); %>
         </select>
         <br>
@@ -53,8 +53,8 @@
             <% loginAttempts.reverse().forEach(attempt => { %>
                 <tr>
                     <td><%= attempt.class %></td>
-                    <td><%= attempt.firstName %> <%= attempt.lastName %></td>
-                    <td><%= new Date(attempt.login_time).toLocaleString() %></td>
+                    <td><a href="/user/<%= attempt.firstName %>/<%= attempt.lastName %>"><%= attempt.firstName %> <%= attempt.lastName %></a></td>
+                    <td><%= attempt.login_time %></td>
                 </tr>
             <% }); %>
         </table>
@@ -62,7 +62,6 @@
         <p>No entries match current filters.</p>
     <% } %>
 
-    <p><% %></p>
     <script>
         function clearFilters() {
           document.getElementById('user_id').value = '';
@@ -71,6 +70,17 @@
           document.getElementById('endDate').value = '';
           document.forms[0].submit(); // Submit the form after clearing filters
         }
-      </script>  
+        function get_time(time){
+            return new Date(time).toLocaleString()
+        }
+        let table = document.getElementById('login-table')
+        if (table){
+            for (let i = 1; i < table.rows.length; i++) {
+                let row = table.rows[i];
+                let cell = row.cells[row.cells.length - 1];
+                cell.innerHTML = get_time(cell.innerHTML)
+            }
+        }
+    </script>  
 </body>
 </html>

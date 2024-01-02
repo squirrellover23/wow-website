@@ -1,0 +1,77 @@
+body {
+    margin: 0;
+    
+}
+main {
+    font-family: 'Arial', sans-serif;
+    margin: 35px;
+    font-size: larger;
+}
+
+h1 {
+    text-align: center;
+}
+
+h1, h2 {
+    color: #333;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.voucher-button {
+    background-color: #7c817c; /* Green button for rows with visits_until_vouch <= 0 */
+    color: white;
+}
+
+.voucher-button:hover {
+    background-color: #6c6d6c;
+}
+
+.delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.delete-button:hover {
+    background-color: #dd0000;
+}
