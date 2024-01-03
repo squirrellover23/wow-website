@@ -14,15 +14,15 @@
             });
     </script>
     
-    <h2 class="main-text">Choose The Class you want to take roll for</h2>
+    <h2 class="main-text">Choose the class you want to take roll for</h2>
 
     
     <form action="/loginPage" method="get" onsubmit="return validateForm()">
-        <h3>Registered Classes</h3>
+        <h3>Enrolled Classes</h3>
         <input type="radio" name="classChosen" value="registered" id="registered">
-        <label for="registered">Registered Classes</label>
+        <label for="registered">Enrolled Classes</label>
         <br>
-        <h3>Unregistered Classes</h3>
+        <h3>Open Enrollment Classes</h3>
         <% classes.forEach(function(classItem) { %>
             <input type="radio" name="classChosen" value="<%= classItem.className %>" id="<%= classItem.className %>">
             <label for="<%= classItem.className %>"><%= classItem.className %></label>

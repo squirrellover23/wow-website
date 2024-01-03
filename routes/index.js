@@ -18,16 +18,10 @@ router.get('/', function(req, res) {
 
 
 router.post('/addnewuser', (req, res) => {
-    let { firstName, lastName, classIn } = req.body;
-    firstName = firstName.trim()
-    lastName = lastName.trim()
-    classIn = classIn.trim()
+    const { firstName, lastName, classIn } = req.body;
 
     if (!firstName ||!lastName) {
-        res.render('useradded', { message: `Please Enter a vaild Name` });
-        return;
-    } else if(!classIn){
-        res.render('useradded', { message: `Please Enter a vaild Class` });
+        res.json({success: false, message: `Please Enter a Vaild Name` });
         return;
     }
     // Check if the user already exists in the database
@@ -35,15 +29,14 @@ router.post('/addnewuser', (req, res) => {
         if (err) {
             res.status(500).send('Error checking user existence.');
         } else if (row) {
-            res.render('useradded', { message: `Failed to add: ${firstName} ${lastName}. User already exists.` });
+            res.json({success: false, message: `Failed to add: ${firstName} ${lastName}. User already exists.` });
         } else {
             // User doesn't exist, insert into the database
             db.run("INSERT INTO names (firstName, lastName, class) VALUES (?, ?, ?)", [firstName, lastName, classIn], (err) => {
                 if (err) {
                     res.status(500).send('Error adding the new user.');
                 } else {
-                    res.render('useradded', { message: `${firstName} ${lastName} added succesfully` });
-
+                    res.json({success: true, message: `${firstName} ${lastName} added succesfully` });
                 }
             });
         }
@@ -128,6 +121,10 @@ router.post('/add-class', (req, res) => {
 });
 router.post('/updatevisits', (req, res) => {
     const { firstName, lastName, visits } = req.body;
+    if (!visits){
+        res.redirect('/viewusers');
+        return;
+    }
     db.run("UPDATE names SET visits_since_vouch = ? WHERE firstName = ? AND lastName = ?", [visits, firstName, lastName], (err) => {
         if (err) {
             res.status(500).send('Error updating the visit count.');
@@ -152,20 +149,6 @@ router.post('/givevoucher', (req, res) => {
                     res.redirect('/viewusers');
                 }
             });
-        }
-    });
-});
-
-
-router.post('/checkuser', (req, res) => {
-    const { firstName, lastName } = req.body;
-    db.get("SELECT * FROM names WHERE firstName = ? AND lastName = ?", [firstName, lastName], (err, row) => {
-        if (err) {
-            res.status(500).send('Error checking user existence.');
-        } else if (!row) {
-            res.status(401).send('Invalid user information.');
-        } else {
-            res.status(200).send('User exists in db')
         }
     });
 });

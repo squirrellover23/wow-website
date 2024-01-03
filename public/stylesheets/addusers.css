@@ -61,14 +61,27 @@ button:hover {
     background-color: #45a049;
 }
 
-.error-message {
-    color: red;
-    display: none;
-}
+
 #add-user-title {
     margin-left: 35px;
 }
-#errorMessage {
-    color: red;
+.message-box {
     display: none;
+    padding: 10px;
+    margin-top: 10px;
+    text-align: center;
+    
+}
+
+.success-message {
+    display:block;
+
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.error-message {
+    background-color: #f44336; /* Red */
+    color: white;
+    display:block;
 }

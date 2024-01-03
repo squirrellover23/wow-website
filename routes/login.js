@@ -29,7 +29,7 @@ router.post('/updateregvisit', (req, res) => {
                 // Update the last login time
                 //AND SET visited = visited + 1
                 var no_error = true; 
-                db.run("UPDATE names SET lastLoginTime = ?, total_visits = total_visits + 1, visits_since_vouch = visits_since_vouch + 1 WHERE firstName = ? AND lastName = ?", [currentTime, firstName, lastName], (err) => {
+                db.run("UPDATE names SET lastLoginTime = ?, total_visits = total_visits + 1, enrolled_class_visits = enrolled_class_visits + 1, visits_since_vouch = visits_since_vouch + 1 WHERE firstName = ? AND lastName = ?", [currentTime, firstName, lastName], (err) => {
                     if (err) {
                         res.status(500).send('Error updating last login time.');
                         no_error = false;

@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+require('dotenv').config()
 
 // Create a transporter using your email service provider's SMTP settings
 
@@ -7,9 +8,9 @@ const transporter = nodemailer.createTransport({
     auth: {
       type: 'OAuth2',
       user: 'petersonwingate1@gmail.com',
-      clientId: '554913482176-jul7r8i5m1q8npgf6ipg5rbdl1papclf.apps.googleusercontent.com',
-      clientSecret: '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',
-      refreshToken: "1//04eDKMb-4gQONCgYIARAAGAQSNwF-L9IrTMgP5jdy3JS9csmKJ-D_7YouLToylrsjZ2xMZR5IA4dqbEz9cXXPTRV4AkLZwZw4LSA",
+      clientId: process.env.CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      refreshToken: process.env.REFRESH_TOKEN,
       expires: 1484314697598
     }
   });
