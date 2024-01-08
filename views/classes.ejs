@@ -19,7 +19,7 @@
         <% [[registeredClasses, 'Enrolled'], [unregisteredClasses, 'Open Enrollment']].forEach((classStuff) => { const [classes, name] = classStuff %>
         <div class="table-container">
             <h2><%= name %></h2>
-            <% if (registeredClasses.length > 0) { %>
+            <% if (classes.length > 0) { %>
                 <table class="class-table">
                     <thead>
                         <tr>
