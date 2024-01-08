@@ -18,7 +18,7 @@
 
     
     <form action="/loginPage" method="get" onsubmit="return validateForm()">
-        <h3>Enrolled Classes</h3>
+        <h3>Closed Enrollment Classes</h3>
         <% closedClasses.forEach(function(classItem) { %>
             <input type="radio" name="classChosen" value="<%= classItem.className + ',' + classItem.registered %>" id="<%= classItem.className %>">
             <label for="<%= classItem.className %>"><%= classItem.className %></label>

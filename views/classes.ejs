@@ -16,7 +16,7 @@
     </script>
     <h1>All Classes</h1>
     <div class="container">
-        <% [[registeredClasses, 'Enrolled'], [unregisteredClasses, 'Open Enrollment']].forEach((classStuff) => { const [classes, name] = classStuff %>
+        <% [[registeredClasses, 'Closed Enrollment'], [unregisteredClasses, 'Open Enrollment']].forEach((classStuff) => { const [classes, name] = classStuff %>
         <div class="table-container">
             <h2><%= name %></h2>
             <% if (classes.length > 0) { %>
@@ -73,7 +73,7 @@
             <label for="registered">Enrollment:</label>
             <select id="registered" name="registered" required>
                 <option value="" disabled selected>Select an option</option>
-                <option value="true">Enrolled</option>
+                <option value="true">Closed Enrollment</option>
                 <option value="false">Open Enrollment</option>
             </select>
             <br>
