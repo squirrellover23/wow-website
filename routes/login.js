@@ -57,7 +57,7 @@ router.post('/updatevisit', (req, res) => {
                 if (no_error) {
                     // email if
                     if(row.visits_since_vouch + 1 == 15){
-                        send_email(process.env.EMAIL, 'Voucher Almost Needed', `Student ${firstName} ${lastName} has reached 15 visits and will soon need a voucher. http://${process.env.URL || 'localhost:3000'}/user/${firstName}/${lastName}`)
+                        send_email(process.env.EMAIL || 'petersonwingate@gmail.com', 'Voucher Almost Needed', `Student ${firstName} ${lastName} has reached 15 visits and will soon need a voucher. http://${process.env.URL || 'localhost:3000'}/user/${firstName}/${lastName}`)
                     }
                     res.status(200).json({visits: row.visits_since_vouch + 1})
 
