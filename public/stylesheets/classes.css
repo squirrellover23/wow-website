@@ -67,7 +67,7 @@ td {
     margin: 5px;
 }
 
-label {
+.add-class label {
     font-weight: bold;
 }
 
@@ -96,6 +96,14 @@ button {
 button:hover {
     background-color: #45a049;
 }
+
+.cancel-button {
+    background-color: red;
+}
+.cancel-button:hover {
+    background-color: #dd0000;
+}
+
 .delete-button {
     background-color: red;
     color: white;

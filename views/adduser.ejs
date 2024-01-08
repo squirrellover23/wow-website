@@ -24,14 +24,6 @@
             <label for="lastName">Last Name:</label>
             <input type="text" id="lastName" name="lastName" required>
             <br>
-            <label for="classIn">Class:</label>
-            <select id="classIn" name="classIn">
-                <option value="" disabled>Select a class</option>
-                <% classes.forEach(function(classItem) { %>
-                    <option value="<%= classItem.className %>"><%= classItem.className %></option>
-                <% }); %>
-            </select>  
-            <br>
             <button type="button" onclick="addUser()">Add User</button>
         </form>
     </div>
@@ -47,7 +39,6 @@
                 var formData = {
                     firstName: `User${i}`,
                     lastName: 'Smith',
-                    classIn: document.getElementById("classIn").value
                 };
         
                 // Perform client-side validation if needed
@@ -72,7 +63,6 @@
             var formData = {
                 firstName: document.getElementById("firstName").value.trim(),
                 lastName: document.getElementById("lastName").value.trim(),
-                classIn: document.getElementById("classIn").value
             };
     
             // Perform client-side validation if needed

@@ -16,19 +16,11 @@ h1, h2 {
     color: #333;
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-}
 
 table {
     border-collapse: collapse;
-    width: 100%;
     margin-top: 20px;
+    width: 50%;
 }
 
 th, td {
@@ -39,6 +31,34 @@ th, td {
 
 th {
     background-color: #f2f2f2;
+    text-align: center;
+}
+
+.tables-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Adjust table width within the container */
+.tables-container table {
+    width: 47%; /* Adjust as needed based on your design */
+}
+.tables-container td {
+    height: 50px; /* Adjust the height as needed */
+}
+
+/* Responsive styling: Make tables stack on smaller screens */
+@media (max-width: 768px) {
+    .tables-container {
+        flex-direction: column;
+    }
+
+    /* Reset table width on smaller screens */
+    .tables-container table {
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }
 
 button {
@@ -75,3 +95,111 @@ button:hover {
 .delete-button:hover {
     background-color: #dd0000;
 }
+
+  
+input, select {
+    width: calc(100% - 20px); /* Adjust the width and margin as needed */
+    padding: 10px;
+    margin: 3px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+.bigger-input {
+    font-size: 20px; /* Increase font size */
+    width: 60px; /* Increase the width as needed */
+}
+
+.update-options {
+    margin-top: 20px;
+}
+
+#toggle-status {
+    margin-left: 5px;
+}
+
+.toggle-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px; /* Adjust the margin as needed */
+}
+.toggle-container-label {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.toggle-switch-label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.toggle-switch-label:before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+#update-vouchers-toggle:checked + .toggle-switch-label {
+    background-color: #4CAF50; /* Green when enabled */
+}
+
+#update-vouchers-toggle:checked + .toggle-switch-label:before {
+    left: 32px;
+}
+
+.more-info-button {
+    display: inline-block; /* Keep the button inline */
+    margin-left: 10px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.info-popup {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.popup-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 400px;
+    text-align: center;
+    position: relative; /* Adjust the position relative to the parent */
+}
+
+.close {
+    /* ... (existing styles) ... */
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+}
+

@@ -5,48 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
 
-        #container {
-            text-align: center;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-            
-        header {
-            background-color: #191248;
-            padding: 23px;
-            text-align: center;
-            position: relative; /* Set position to relative for absolute positioning of the logo */
-        }
+#container {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        #logo {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            max-height: 50px; /* Adjust the max height as needed */
-        }
+header {
+    background-color: #191248;
+    padding: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center items horizontally */
+}
 
-        .head-link {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 18px;
-        }
+#logo {
+    max-height: 50px;
+    vertical-align: middle;
+}
 
-        .head-link:hover {
-            border-bottom: 2px solid white;
-        }
+.head-link {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 18px;
+}
+
+.head-link:hover {
+    border-bottom: 2px solid white;
+}
+
+
     </style>
 </head>
 <body>
     <div id="container">
     <header>
         <img id="logo" src="/images/small-logo.png" alt="Logo">
-        <a class="head-link" href="/viewusers">All Students</a>
+        <a class="head-link" href="/">Record Attendance</a>
         <a class="head-link" href="/adduser">New Student</a>
+        <a class="head-link" href="/viewusers">All Students</a>
         <a class="head-link" href="/login-attempts">Attendance Records</a>
         <a class="head-link" href="/classes">Classes</a>
-        <a class="head-link" href="/">Record Attendance</a>
     </header>
     </div>
 </body>

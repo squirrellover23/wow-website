@@ -78,6 +78,10 @@ button:hover {
     background-color: #45a049;
 }
 
+.edit-user {
+    margin-left: 15px;
+}
+
 .red-row {
     background-color: #ff7575; /* Light red background for rows with visits_until_vouch <= 0 */
 }

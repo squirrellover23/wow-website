@@ -6,11 +6,17 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res) {
-    db.all("SELECT * FROM classes WHERE registered = 0", (err, classes) => {
+    db.all("SELECT * FROM classes WHERE registered = 0", (err, openClasses) => {
         if(err){
             res.status(500).send('Error Getting Classes');
         } else {
-            res.render('login-settings', {classes: classes});
+            db.all("SELECT * FROM classes WHERE registered = 1", (err, closedClasses) => {
+                if(err){
+                    res.status(500).send('Error Getting Classes');
+                } else {
+                    res.render('login-settings', {closedClasses: closedClasses, openClasses: openClasses});
+                }
+            });
         }
     })
 });
@@ -18,7 +24,7 @@ router.get('/', function(req, res) {
 
 
 router.post('/addnewuser', (req, res) => {
-    const { firstName, lastName, classIn } = req.body;
+    const { firstName, lastName } = req.body;
 
     if (!firstName ||!lastName) {
         res.json({success: false, message: `Please Enter a Vaild Name` });
@@ -32,7 +38,7 @@ router.post('/addnewuser', (req, res) => {
             res.json({success: false, message: `Failed to add: ${firstName} ${lastName}. User already exists.` });
         } else {
             // User doesn't exist, insert into the database
-            db.run("INSERT INTO names (firstName, lastName, class) VALUES (?, ?, ?)", [firstName, lastName, classIn], (err) => {
+            db.run("INSERT INTO names (firstName, lastName) VALUES (?, ?)", [firstName, lastName], (err) => {
                 if (err) {
                     res.status(500).send('Error adding the new user.');
                 } else {
@@ -45,22 +51,38 @@ router.post('/addnewuser', (req, res) => {
 
 
 router.get('/adduser', (req, res) => {
-    db.all('SELECT * FROM classes WHERE registered = 1', (err, classes) => {
-        if (err) {
-            res.status(500).send('Internal Server Error');
-            return;
-        } 
-        res.render('adduser', { classes: classes });   
-    });
+    res.render('adduser');
 });
 
 
 router.get('/viewusers', (req, res) => {
-    db.all("SELECT firstName, lastName, visits_since_vouch, class FROM names", (err, rows) => {
+    db.all("SELECT firstName, lastName, visits_since_vouch FROM names", (err, rows) => {
         if (err) {
             res.status(500).send('Error fetching user data.');
         } else {
-            res.render('viewusers', { users: rows});
+            const sort_rows = rows.sort((a, b) => {
+                const nameA = a.lastName.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
+                const nameB = b.lastName.toUpperCase();
+              
+                if (nameA < nameB) {
+                    return -1;
+                } else if (nameA > nameB) {
+                    return 1;
+                } else {
+                    const nameA2 = a.firstName.toUpperCase(); // Convert names to uppercase for case-insensitive comparison
+                    const nameB2 = b.firstName.toUpperCase();
+                    if (nameA2 < nameB2) {
+                        return -1;
+                    } else if (nameA2 > nameB2) {
+                        return 1;
+                    } else {
+                        return 0
+                    }
+                }
+                // names must be equal
+                
+              });
+            res.render('viewusers', { users: sort_rows});
         }
     });
 });
@@ -119,25 +141,55 @@ router.post('/add-class', (req, res) => {
         }
     });
 });
-router.post('/updatevisits', (req, res) => {
-    const { firstName, lastName, visits } = req.body;
+
+
+function update_visits(visits_to_update) {
+    return (req, res) => {
+        const { firstName, lastName, visits } = req.body;
+        const referringPage = req.get('referer');
+    
+        if (!visits){
+            res.redirect(referringPage || '/viewusers');
+            return;
+        }
+        db.run(`UPDATE names SET ${visits_to_update} = ? WHERE firstName = ? AND lastName = ?`, [visits, firstName, lastName], (err) => {
+            if (err) {
+                res.status(500).send('Error updating the visit count.');
+            } else {
+                res.redirect(referringPage || '/viewusers'); // Redirect back to the "View Users" page
+            }
+        });
+    }
+}
+
+router.post('/update-vouch-visits', update_visits('visits_since_vouch'));
+router.post('/update-open-visits', update_visits('open_class_visits'));
+router.post('/update-closed-visits', update_visits('enrolled_class_visits'));
+
+router.post('/update-vouch-open-visits', (req, res) => {
+    const { firstName, lastName, visits, originalValue } = req.body;
+    const referringPage = req.get('referer');
+    const diff = Number(visits) - Number(originalValue)
     if (!visits){
-        res.redirect('/viewusers');
+        res.redirect(referringPage || '/viewusers');
         return;
     }
-    db.run("UPDATE names SET visits_since_vouch = ? WHERE firstName = ? AND lastName = ?", [visits, firstName, lastName], (err) => {
+    db.run(`UPDATE names SET visits_since_vouch = visits_since_vouch + ?, open_class_visits = open_class_visits + ?  WHERE firstName = ? AND lastName = ?`, [diff, diff, firstName, lastName], (err) => {
         if (err) {
             res.status(500).send('Error updating the visit count.');
         } else {
-            res.redirect('/viewusers'); // Redirect back to the "View Users" page
+            res.redirect(referringPage || '/viewusers'); // Redirect back to the "View Users" page
         }
     });
-});
+})
+
 
 
 router.post('/givevoucher', (req, res) => {
     const { firstName, lastName } = req.body;
-    db.run("UPDATE names SET visits_since_vouch = visits_since_vouch - 16, vouchers_received = vouchers_received + 1 WHERE firstName = ? AND lastName = ?", [firstName, lastName], (err) => {
+    const updateQuery = `UPDATE names SET visits_since_vouch = CASE WHEN (visits_since_vouch - 16) < 0 THEN 0 ELSE visits_since_vouch - 16 END, vouchers_received = vouchers_received + 1 WHERE firstName = ? AND lastName = ?;`;
+    const referringPage = req.get('referer');
+    db.run(updateQuery, [firstName, lastName], (err) => {
         if (err) {
             res.status(500).send('Error updating the visit count.');
         } else {
@@ -146,7 +198,7 @@ router.post('/givevoucher', (req, res) => {
                 if (err){
                     res.status(500).send('Error logging voucher info.');
                 } else {
-                    res.redirect('/viewusers');
+                    res.redirect(referringPage || '/viewusers');
                 }
             });
         }
@@ -164,7 +216,7 @@ router.get('/user/:firstName/:lastName', (req, res) => {
             console.error(err.message);
             res.status(500).send('Internal Server Error');
         } else if (userRow) {
-            const loginQuery = 'SELECT class, login_time FROM login_logs WHERE firstName = ? AND lastName = ?';
+            const loginQuery = 'SELECT login_time, class FROM login_logs WHERE firstName = ? AND lastName = ?';
             db.all(loginQuery, [firstName, lastName], (err, loginRows) => {
                 if (err) {
                     console.error(err.message);
@@ -220,6 +272,27 @@ router.post('/deleteclass', (req, res) => {
     });
 });
 
+router.post('/editclass', (req, res) => {
+    const oldClassName = req.body.oldClassName;
+    const newClassName = req.body.editClassName;
+
+    // Update the class name in the database
+    db.run('UPDATE classes SET className = ? WHERE className = ?', [newClassName, oldClassName], (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Error Changing Class Name');
+        } else {
+            db.run('UPDATE login_logs SET class = ? WHERE class = ?', [newClassName, oldClassName], (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send('Error Changing Class Name');
+                } else {
+                    res.redirect('/classes'); // Redirect to the classes page
+                }
+            });
+        }
+    });
+});
 
 
 router.get('/login-attempts', (req, res) => {
@@ -250,8 +323,8 @@ router.get('/login-attempts', (req, res) => {
         const nextDay = new Date(endDate);
         nextDay.setDate(nextDay.getDate() + 1);
         query += ` AND login_time <= ?`;
-        params.push(`${nextDay.toISOString().split('T')[0]}`);
-
+        params.push(`${nextDay.toISOString()}`);
+        console.log(nextDay.toISOString())
     }
   
     // Retrieve login attempts based on the query

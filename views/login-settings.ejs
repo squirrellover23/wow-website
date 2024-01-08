@@ -19,18 +19,19 @@
     
     <form action="/loginPage" method="get" onsubmit="return validateForm()">
         <h3>Enrolled Classes</h3>
-        <input type="radio" name="classChosen" value="registered" id="registered">
-        <label for="registered">Enrolled Classes</label>
-        <br>
+        <% closedClasses.forEach(function(classItem) { %>
+            <input type="radio" name="classChosen" value="<%= classItem.className + ',' + classItem.registered %>" id="<%= classItem.className %>">
+            <label for="<%= classItem.className %>"><%= classItem.className %></label>
+            <br>
+        <% }); %>
         <h3>Open Enrollment Classes</h3>
-        <% classes.forEach(function(classItem) { %>
-            <input type="radio" name="classChosen" value="<%= classItem.className %>" id="<%= classItem.className %>">
+        <% openClasses.forEach(function(classItem) { %>
+            <input type="radio" name="classChosen" value="<%= classItem.className + ',' + classItem.registered %>" id="<%= classItem.className %>">
             <label for="<%= classItem.className %>"><%= classItem.className %></label>
             <br>
         <% }); %>
         <button type="submit" id="continueButton" disabled>Continue</button>
     </form>
-    
     <script>
         function validateForm() {
             var selectedOption = document.querySelector('input[name="classChosen"]:checked');
