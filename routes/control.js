@@ -1,7 +1,6 @@
 var express = require("express");
 var router = express.Router();
 const { send_email } = require("../email_control");
-const path = require("path");
 
 /* GET users listing. */
 router.get("/email", function (req, res, next) {
