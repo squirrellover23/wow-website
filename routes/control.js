@@ -1,13 +1,17 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const {send_email} = require('../email_control')
-
+const { send_email } = require("../email_control");
+const path = require("path");
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-    send_email( 'petersonwingate@gmail.com', 'test email', 'yess!!! yes yes yes!! http://localhost:3000')    
+router.get("/email", function (req, res, next) {
+    send_email(
+        "petersonwingate@gmail.com",
+        "test email",
+        "yess!!! yes yes yes!! http://localhost:3000"
+    );
 
-    res.send('respond with a email');
+    res.send("test email");
 });
 
 module.exports = router;

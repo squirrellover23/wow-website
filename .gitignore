@@ -1,2 +1,5 @@
 .env
+.vscode
 database.db
+node_modules
+database_backups
