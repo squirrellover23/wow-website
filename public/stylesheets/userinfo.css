@@ -37,7 +37,7 @@ th {
 .tables-container {
     display: flex;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 0px;
 }
 
 /* Adjust table width within the container */
@@ -109,6 +109,18 @@ input, select {
 .bigger-input {
     font-size: 20px; /* Increase font size */
     width: 60px; /* Increase the width as needed */
+}
+
+#change-name{
+    margin-top: 20px;
+}
+
+#change-name-title {
+    margin: 0;
+}
+.bigger-input-text {
+    font-size: 18px;
+    width: 20%;
 }
 
 .update-options {

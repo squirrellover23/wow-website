@@ -1,218 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <title>Student Information</title>
-    <link rel="stylesheet" href="/stylesheets/userinfo.css">
+    <head>
+        <title>Student Information</title>
+        <link rel="stylesheet" href="/stylesheets/userinfo.css" />
 
-    <!-- Include your stylesheets and other head elements here -->
-</head>
-<body>
-    <div id="header-container"></div>
-    <script>
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('header-container').innerHTML = html;
-            });
-    </script>
-    <main>
-    <h1>Student Information for <%= user.firstName %> <%= user.lastName %></h1>
-    
-    <div class="update-options">
-        <label for="update-vouchers-toggle">Update Corresponding Values:</label>
-        <div class="toggle-container">
-            <!-- Hidden checkbox for functionality -->
-            <input type="checkbox" id="update-vouchers-toggle" hidden>
-            <!-- Styled label for the toggle switch -->
-            <label class="toggle-switch-label" for="update-vouchers-toggle"></label>
-            <span id="toggle-status">Disabled</span>
-            <button class="more-info-button" onclick="togglePopup()">More Info</button>
-
-        </div>
-    </div>
-
-    <div class="info-popup" id="info-popup">
-        <div class="popup-content">
-            <span class="close" onclick="togglePopup()">&times;</span>
-            <p>This switch allows you to update all the student's information at once. When enabled, updating open enrollment attendance or the classes since last voucher will update the other by the same amount. When disabled, updating any value will only change that value.</p>
-        </div>
-    </div>
-    
-    <script>
-        // Function to toggle the popup
-        function togglePopup() {
-            const popup = document.getElementById('info-popup');
-            const displayStyle = window.getComputedStyle(popup).getPropertyValue('display');
-
-            if (displayStyle === 'none') {
-                popup.style.display = 'flex'; // or 'block' based on your preference
-            } else {
-                popup.style.display = 'none';
-            }
-        }
-    </script>
-
-    <div class="tables-container">
-    <table>
-        <head>
-        <tr>
-            <th colspan="2">Attendance Info For 2024</th>
-        </tr>
-        </head>
-        <tr>
-            <td>Closed Enrollment</td>
-            <td>
-                <form action="/update-closed-visits" method="post">
-                    <input type="hidden" name="firstName" value="<%= user.firstName %>">
-                    <input type="hidden" name="lastName" value="<%= user.lastName %>">
+        <!-- Include your stylesheets and other head elements here -->
+    </head>
+    <body>
+        <div id="header-container"></div>
+        <script>
+            fetch("/header.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    document.getElementById("header-container").innerHTML =
+                        html;
+                });
+        </script>
+        <main>
+            <h1>
+                Student Information for <%= user.firstName %> <%= user.lastName
+                %>
+            </h1>
+            <div id="change-name">
+                <h3 id="change-name-title">Change name</h3>
+                <form action="/edit-name" method="post">
+                    <input
+                        type="hidden"
+                        name="firstName"
+                        value="<%= user.firstName %>"
+                    />
+                    <input
+                        type="hidden"
+                        name="lastName"
+                        value="<%= user.lastName %>"
+                    />
                     <!-- Increase the size and font of the input box -->
-                    <input type="number" name="visits" value="<%= user.enrolled_class_visits %>" class="bigger-input">
+                    <label for="newfirst">First</label>
+                    <input
+                        type="text"
+                        name="newfirst"
+                        value="<%= user.firstName %>"
+                        class="bigger-input-text"
+                    />
+                    <label for="newlast">Last</label>
+
+                    <input
+                        type="text"
+                        name="newlast"
+                        value="<%= user.lastName %>"
+                        class="bigger-input-text"
+                    />
                     <button type="submit">Update</button>
                 </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Open Enrollment</td>
-            <td>
-                <form id="update-open-visits-form" action="/update-open-visits" method="post">
-                    <input type="hidden" name="firstName" value="<%= user.firstName %>">
-                    <input type="hidden" name="lastName" value="<%= user.lastName %>">
-                    <input type="hidden" name="originalValue" value="<%= user.open_class_visits %>">
-                    <input type="number" name="visits" value="<%= user.open_class_visits %>" class="bigger-input">
-                    <button type="submit">Update</button>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>All Classes</td>
-            <td><%= user.enrolled_class_visits + user.open_class_visits %></td>            
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <th colspan="2">Voucher Info</th>
-        </tr>
-        <tr>
-            <td>Classes Since Last Voucher</td>
-            <td>
-                <form id="update-vouch-visits-form" action="/update-vouch-visits" method="post">
-                    <input type="hidden" name="firstName" value="<%= user.firstName %>">
-                    <input type="hidden" name="lastName" value="<%= user.lastName %>">
-                    <!-- Increase the size and font of the input box -->
-                    <input type="hidden" name="originalValue" value="<%= user.visits_since_vouch %>">
-                    <input type="number" name="visits" value="<%= user.visits_since_vouch %>" class="bigger-input">
-                    <button type="submit">Update</button>
-                </form>    
-            </td>
-        </tr>
-        <tr>
-            <td>Vouchers Received</td>
-            <td><%= user.vouchers_received %></td>
-        </tr>
-        <tr>
-            <!-- <td>Give voucher</td> -->
-            <td colspan="2">
-            <form action="/givevoucher" method="post">
-                <input type="hidden" name="firstName" value="<%= user.firstName %>">
-                <input type="hidden" name="lastName" value="<%= user.lastName %>">
-                <button type="submit" class="<%= (user.visits_since_vouch >= 16) ? 'green-button' : 'voucher-button' %>">Record Voucher</button>
-            </form>
-            </td>
-        </tr>
-    </table>
-    </div>
-    <br>
-    
+            </div>
 
+            <br />
 
-    <h2>Login History</h2>
-    <table id="login-table">
-        <thead>
-            <tr>
-                <th>Class</th>
-                <th>Login Time</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% logins.reverse().forEach(login => { %>
-                <tr>
-                    <td><%= login.class %></td>
-                    <td><%= login.login_time %></td>
-                </tr>
-            <% }); %>
-        </tbody>
-    </table>
-    <h2>Voucher History</h2>
-    <table id="voucher-table">
-        <thead>
-        <tr>
-            <th>Time Recorded</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% vouchers.reverse().forEach(voucher => { %>
-            <tr>
-            <td><%= voucher.time_given %></td>
-            </tr>
-        <% }); %>
-        </tbody>
-    </table>
-    <br>
-    <br>
-    <form action="/deleteuser" method="post" onsubmit="return confirmDelete();">
-        <input type="hidden" name="firstName" value="<%= user.firstName %>">
-        <input type="hidden" name="lastName" value="<%= user.lastName %>">
-        <button type="submit" class="delete-button">Delete User</button>
-    </form>
-    </main>
-    
-    <script>
-        const toggleSwitch = document.getElementById('update-vouchers-toggle');
-        const toggleStatus = document.getElementById('toggle-status');
+            <div class="update-options">
+                <label for="update-vouchers-toggle"
+                    >Update Corresponding Values:</label
+                >
+                <div class="toggle-container">
+                    <!-- Hidden checkbox for functionality -->
+                    <input type="checkbox" id="update-vouchers-toggle" hidden />
+                    <!-- Styled label for the toggle switch -->
+                    <label
+                        class="toggle-switch-label"
+                        for="update-vouchers-toggle"
+                    ></label>
+                    <span id="toggle-status">Disabled</span>
+                    <button class="more-info-button" onclick="togglePopup()">
+                        More Info
+                    </button>
+                </div>
+            </div>
 
-        toggleSwitch.addEventListener('change', function () {
-            // Get the forms
-            const vouchVisitsForm = document.getElementById('update-vouch-visits-form');
-            const openVisitsForm = document.getElementById('update-open-visits-form');
+            <div class="info-popup" id="info-popup">
+                <div class="popup-content">
+                    <span class="close" onclick="togglePopup()">&times;</span>
+                    <p>
+                        This switch allows you to update all the student's
+                        information at once. When enabled, updating open
+                        enrollment attendance or the classes since last voucher
+                        will update the other by the same amount. When disabled,
+                        updating any value will only change that value.
+                    </p>
+                </div>
+            </div>
 
-            if (this.checked) {
-                // Change the action attribute to a different endpoint
-                vouchVisitsForm.action = "/update-vouch-open-visits";
-                openVisitsForm.action = "/update-vouch-open-visits";
+            <script>
+                // Function to toggle the popup
+                function togglePopup() {
+                    const popup = document.getElementById("info-popup");
+                    const displayStyle = window
+                        .getComputedStyle(popup)
+                        .getPropertyValue("display");
 
-                // Update toggle status
-                toggleStatus.textContent = 'Enabled';
-            } else {
-                // Reset the action attributes to the original endpoints
-                vouchVisitsForm.action = "/update-vouch-visits";
-                openVisitsForm.action = "/update-open-visits";
+                    if (displayStyle === "none") {
+                        popup.style.display = "flex"; // or 'block' based on your preference
+                    } else {
+                        popup.style.display = "none";
+                    }
+                }
+            </script>
 
-                // Update toggle status
-                toggleStatus.textContent = 'Disabled';
-            }
-        });
             
-        function confirmDelete() {
-            return confirm('Are you sure you want to delete this user?');
-        }
-        function get_time(time){
-            return new Date(time).toLocaleString()
-        }
-        
-        function change_table_time (table){
-            if (table){
-                for (let i = 1; i < table.rows.length; i++) {
-                    let row = table.rows[i];
-                    let cell = row.cells[row.cells.length - 1];
-                    cell.innerHTML = get_time(cell.innerHTML)
+            <div class="tables-container">
+                <table>
+                    <head>
+                        <tr>
+                            <th colspan="2">Attendance Info For 2024</th>
+                        </tr>
+                    </head>
+                    <tr>
+                        <td>Closed Enrollment</td>
+                        <td>
+                            <form action="/update-closed-visits" method="post">
+                                <input
+                                    type="hidden"
+                                    name="firstName"
+                                    value="<%= user.firstName %>"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="lastName"
+                                    value="<%= user.lastName %>"
+                                />
+                                <!-- Increase the size and font of the input box -->
+                                <input
+                                    type="number"
+                                    name="visits"
+                                    value="<%= user.enrolled_class_visits %>"
+                                    class="bigger-input"
+                                />
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Open Enrollment</td>
+                        <td>
+                            <form
+                                id="update-open-visits-form"
+                                action="/update-open-visits"
+                                method="post"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="firstName"
+                                    value="<%= user.firstName %>"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="lastName"
+                                    value="<%= user.lastName %>"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="originalValue"
+                                    value="<%= user.open_class_visits %>"
+                                />
+                                <input
+                                    type="number"
+                                    name="visits"
+                                    value="<%= user.open_class_visits %>"
+                                    class="bigger-input"
+                                />
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>All Classes</td>
+                        <td>
+                            <%= user.enrolled_class_visits +
+                            user.open_class_visits %>
+                        </td>
+                    </tr>
+                </table>
+                <table>
+                    <tr>
+                        <th colspan="2">Voucher Info</th>
+                    </tr>
+                    <tr>
+                        <td>Classes Since Last Voucher</td>
+                        <td>
+                            <form
+                                id="update-vouch-visits-form"
+                                action="/update-vouch-visits"
+                                method="post"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="firstName"
+                                    value="<%= user.firstName %>"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="lastName"
+                                    value="<%= user.lastName %>"
+                                />
+                                <!-- Increase the size and font of the input box -->
+                                <input
+                                    type="hidden"
+                                    name="originalValue"
+                                    value="<%= user.visits_since_vouch %>"
+                                />
+                                <input
+                                    type="number"
+                                    name="visits"
+                                    value="<%= user.visits_since_vouch %>"
+                                    class="bigger-input"
+                                />
+                                <button type="submit">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Vouchers Received</td>
+                        <td><%= user.vouchers_received %></td>
+                    </tr>
+                    <tr>
+                        <!-- <td>Give voucher</td> -->
+                        <td colspan="2">
+                            <form action="/givevoucher" method="post">
+                                <input
+                                    type="hidden"
+                                    name="firstName"
+                                    value="<%= user.firstName %>"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="lastName"
+                                    value="<%= user.lastName %>"
+                                />
+                                <button
+                                    type="submit"
+                                    class="<%= (user.visits_since_vouch >= 16) ? 'green-button' : 'voucher-button' %>"
+                                >
+                                    Record Voucher
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br />
+
+            <h2>Login History</h2>
+            <table id="login-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Login Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% logins.reverse().forEach(login => { %>
+                    <tr>
+                        <td><%= login.class %></td>
+                        <td><%= login.login_time %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <h2>Voucher History</h2>
+            <table id="voucher-table">
+                <thead>
+                    <tr>
+                        <th>Time Recorded</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% vouchers.reverse().forEach(voucher => { %>
+                    <tr>
+                        <td><%= voucher.time_given %></td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+            <br />
+            <br />
+            <form
+                action="/deleteuser"
+                method="post"
+                onsubmit="return confirmDelete();"
+            >
+                <input
+                    type="hidden"
+                    name="firstName"
+                    value="<%= user.firstName %>"
+                />
+                <input
+                    type="hidden"
+                    name="lastName"
+                    value="<%= user.lastName %>"
+                />
+                <button type="submit" class="delete-button">Delete User</button>
+            </form>
+        </main>
+
+        <script>
+            const toggleSwitch = document.getElementById(
+                "update-vouchers-toggle"
+            );
+            const toggleStatus = document.getElementById("toggle-status");
+
+            toggleSwitch.addEventListener("change", function () {
+                // Get the forms
+                const vouchVisitsForm = document.getElementById(
+                    "update-vouch-visits-form"
+                );
+                const openVisitsForm = document.getElementById(
+                    "update-open-visits-form"
+                );
+
+                if (this.checked) {
+                    // Change the action attribute to a different endpoint
+                    vouchVisitsForm.action = "/update-vouch-open-visits";
+                    openVisitsForm.action = "/update-vouch-open-visits";
+
+                    // Update toggle status
+                    toggleStatus.textContent = "Enabled";
+                } else {
+                    // Reset the action attributes to the original endpoints
+                    vouchVisitsForm.action = "/update-vouch-visits";
+                    openVisitsForm.action = "/update-open-visits";
+
+                    // Update toggle status
+                    toggleStatus.textContent = "Disabled";
+                }
+            });
+
+            function confirmDelete() {
+                return confirm("Are you sure you want to delete this user?");
+            }
+            function get_time(time) {
+                return new Date(time).toLocaleString();
+            }
+
+            function change_table_time(table) {
+                if (table) {
+                    for (let i = 1; i < table.rows.length; i++) {
+                        let row = table.rows[i];
+                        let cell = row.cells[row.cells.length - 1];
+                        cell.innerHTML = get_time(cell.innerHTML);
+                    }
                 }
             }
-        }
-        let table1 = document.getElementById('login-table')
-        let table2 = document.getElementById('voucher-table')
-        change_table_time(table1)
-        change_table_time(table2)
-        
-    </script>
-</body>
+            let table1 = document.getElementById("login-table");
+            let table2 = document.getElementById("voucher-table");
+            change_table_time(table1);
+            change_table_time(table2);
+        </script>
+    </body>
 </html>
