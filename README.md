@@ -1,2 +1,4 @@
-This is a website for tracking logins 
+This is a website for tracking class attendance
+
+
 
