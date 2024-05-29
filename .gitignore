@@ -4,3 +4,4 @@ database.db
 node_modules/
 database_backups
 package-lock.json
+deployInstructions.txt
