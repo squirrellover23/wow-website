@@ -6,10 +6,22 @@ var router = express.Router();
 
 // Render Page endpoints
 
-/* GET home page. */
 
-// Home page is where you choose a class to take attendance for
-router.get("/", function (req, res) {
+// 
+router.get('/', (req, res) => {
+    res.render('signIn');
+});
+
+
+// sign in endpoint
+router.get('/sign-in', (req, res) => {
+    res.redirect('/attendance-settings')
+});
+
+
+// attendance-settings
+// attendance-settings is where you choose a class to take attendance for
+router.get("/attendance-settings", function (req, res) {
     db.all("SELECT * FROM classes WHERE registered = 0", (err, openClasses) => {
         if (err) {
             res.status(500).send("Error Getting Classes");

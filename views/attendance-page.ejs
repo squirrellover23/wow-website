@@ -35,7 +35,7 @@
         <p id="visitsMessage">This is a pop-up box.</p>
         <button class="close-button" onclick="closePopup()">Close</button>
     </div>
-    <button id="change-class-button" onclick="window.location.href = '/'">Change Class</button>
+    <button id="change-class-button" onclick="window.location.href = '/attendance-settings'">Change Class</button>
 
     <script>
         function openPopup(firstName, lastName, message) {
@@ -85,10 +85,6 @@
             xhr.send(params);
         }
 
-        
-        function goToAddUser() {
-            window.location.href = '/viewusers';
-        }
 
         function clearInputAndMessage() {
             document.getElementById('firstName').value = '';
