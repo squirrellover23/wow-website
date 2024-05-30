@@ -20,7 +20,7 @@ router.get("/", function (req, res) {
                     if (err) {
                         res.status(500).send("Error Getting Classes");
                     } else {
-                        res.render("login-settings", {
+                        res.render("attendance-settings", {
                             closedClasses: closedClasses,
                             openClasses: openClasses,
                         });
@@ -101,8 +101,8 @@ router.get("/classes", (req, res) => {
     );
 });
 
-// All login attempts
-router.get("/login-attempts", (req, res) => {
+// All Attendance info
+router.get("/attendance-attempts", (req, res) => {
     // Check if user_id, start date, and end date are provided in the query parameters
     const { user_id, user_class, startDate, endDate } = req.query;
     let query = "SELECT * FROM login_logs WHERE 1=1"; // 1=1 for dynamic WHERE clause building
@@ -131,21 +131,20 @@ router.get("/login-attempts", (req, res) => {
         nextDay.setDate(nextDay.getDate() + 1);
         query += ` AND login_time <= ?`;
         params.push(`${nextDay.toISOString()}`);
-        console.log(nextDay.toISOString());
     }
 
-    // Retrieve login attempts based on the query
+    // Retrieve attendance attempts based on the query
     db.all(query, params, (err, rows) => {
         if (err) {
-            console.error("Error retrieving login attempts:", err.message);
+            console.error("Error retrieving attendance attempts:", err.message);
             res.status(500).send("Internal Server Error");
         } else {
             db.all("SELECT * FROM classes", (err, result) => {
                 if (err) {
                     res.status(500).send("Error fetching class data.");
                 }
-                res.render("login-attempts", {
-                    loginAttempts: rows,
+                res.render("attendance-attempts", {
+                    attendanceAttempts: rows,
                     user_id,
                     user_class,
                     startDate,
@@ -153,7 +152,7 @@ router.get("/login-attempts", (req, res) => {
                     classes: result,
                 });
             });
-            // Render the login attempts page and pass the login attempts data to the view
+            // Render the attendance attempts page and pass the attendance attempts data to the view
         }
     });
 });
@@ -264,34 +263,40 @@ router.get("/user/:firstName/:lastName", (req, res, next) => {
             console.error(err.message);
             res.status(500).send("Internal Server Error");
         } else if (userRow) {
-            const loginQuery =
+            const attendanceQuery =
                 "SELECT login_time, class FROM login_logs WHERE firstName = ? AND lastName = ?";
-            db.all(loginQuery, [firstName, lastName], (err, loginRows) => {
-                if (err) {
-                    console.error(err.message);
-                    res.status(500).send("Internal Server Error");
-                } else {
-                    const voucherQuery =
-                        "SELECT time_given FROM vouchers_given WHERE firstName = ? AND lastName = ?";
-                    db.all(
-                        voucherQuery,
-                        [firstName, lastName],
-                        (err, voucherRows) => {
-                            if (err) {
-                                console.error(err.message);
-                                res.status(500).send("Internal Server Error");
-                                return;
-                            }
+            db.all(
+                attendanceQuery,
+                [firstName, lastName],
+                (err, attendanceRows) => {
+                    if (err) {
+                        console.error(err.message);
+                        res.status(500).send("Internal Server Error");
+                    } else {
+                        const voucherQuery =
+                            "SELECT time_given FROM vouchers_given WHERE firstName = ? AND lastName = ?";
+                        db.all(
+                            voucherQuery,
+                            [firstName, lastName],
+                            (err, voucherRows) => {
+                                if (err) {
+                                    console.error(err.message);
+                                    res.status(500).send(
+                                        "Internal Server Error"
+                                    );
+                                    return;
+                                }
 
-                            res.render("userinfo", {
-                                user: userRow,
-                                logins: loginRows,
-                                vouchers: voucherRows,
-                            });
-                        }
-                    );
+                                res.render("userinfo", {
+                                    user: userRow,
+                                    attendance: attendanceRows,
+                                    vouchers: voucherRows,
+                                });
+                            }
+                        );
+                    }
                 }
-            });
+            );
         } else {
             // User not found
             // res.status(404).send("User not found");
@@ -446,7 +451,7 @@ router.post("/add-class", (req, res) => {
 });
 
 // Delete's a class from the class page
-// Won't delete login logs with the class
+// Won't delete attendance logs with the class
 router.post("/deleteclass", (req, res) => {
     const { className } = req.body;
     db.run("DELETE FROM classes WHERE className = ?", [className], (err) => {

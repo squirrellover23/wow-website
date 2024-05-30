@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Settings</title>
-    <link rel="stylesheet" href="stylesheets/login-settings.css">
+    <title>Attendance Settings</title>
+    <link rel="stylesheet" href="stylesheets/attendance-settings.css">
 </head>
 <body>
     <div id="header-container"></div>
@@ -17,7 +17,7 @@
     <h2 class="main-text">Choose the class you want to take roll for</h2>
 
     
-    <form action="/loginPage" method="get" onsubmit="return validateForm()">
+    <form action="/attendancePage" method="get" onsubmit="return validateForm()">
         <h3>Closed Enrollment Classes</h3>
         <% closedClasses.forEach(function(classItem) { %>
             <input type="radio" name="classChosen" value="<%= classItem.className + ',' + classItem.registered %>" id="<%= classItem.className %>">

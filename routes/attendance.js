@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
     classChosen = classChosen.split(',');
     const className = classChosen[0];
     const closed = classChosen[1];
-    res.render('login-page', {open: !Number(closed), classs: className});
+    res.render("attendance-page", { open: !Number(closed), classs: className });
     
 });
 
@@ -35,8 +35,6 @@ router.post('/updatevisit', (req, res) => {
                 var no_error = true;
                 const query_open = "UPDATE names SET lastLoginTime = ?, total_visits = total_visits + 1, open_class_visits = open_class_visits + 1, visits_since_vouch = visits_since_vouch + 1 WHERE firstName = ? AND lastName = ?" 
                 const query_closed = "UPDATE names SET lastLoginTime = ?, total_visits = total_visits + 1, enrolled_class_visits = enrolled_class_visits + 1  WHERE firstName = ? AND lastName = ?"
-                console.log(closed)
-                console.log(closed === 'true')
                 const chosen_query = closed === 'true' ? query_closed: query_open
                 db.run(chosen_query, [currentTime, firstName, lastName], (err) => {
                     if (err) {

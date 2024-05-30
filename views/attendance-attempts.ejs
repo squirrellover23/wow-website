@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance Logs</title>
-    <link rel="stylesheet" href="stylesheets/login-attempts.css">
+    <link rel="stylesheet" href="stylesheets/attendance-attempts.css">
     
 </head>
 <body>
@@ -21,7 +21,7 @@
     <h1>Attendance Logs</h1>
     
 
-    <form action="/login-attempts" method="GET">
+    <form action="/attendance-attempts" method="GET">
         <h2 style="font-size: 20px; margin-bottom: 15px; margin-top: 0px;">Filter Records</h2>
         <label for="user_id">Student Name</label>
         <input type="text" id="user_id" name="user_id" placeholder="First Last" value="<%= user_id %>">
@@ -43,14 +43,14 @@
         <button type="submit">Filter</button>
         <button type="button" onclick="clearFilters()">Clear Filters</button>
     </form>
-    <% if (loginAttempts.length > 0) { %>
+    <% if (attendanceAttempts.length > 0) { %>
         <table id="login-table">
             <tr>
                 <th>Class</th>
                 <th>Student</th>
                 <th>Login Time</th>
             </tr>
-            <% loginAttempts.reverse().forEach(attempt => { %>
+            <% attendanceAttempts.reverse().forEach(attempt => { %>
                 <tr>
                     <td><%= attempt.class %></td>
                     <td><a href="/user/<%= attempt.firstName %>/<%= attempt.lastName %>"><%= attempt.firstName %> <%= attempt.lastName %></a></td>

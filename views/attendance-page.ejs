@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="stylesheets/login.css">
+    <title>Attendance</title>
+    <link rel="stylesheet" href="stylesheets/attendance.css">
 
 </head>
 <body>
@@ -67,7 +67,7 @@
 
         function login(firstName, lastName) {
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/loginPage/updatevisit', true);
+            xhr.open('POST', '/attendancePage/updatevisit', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
