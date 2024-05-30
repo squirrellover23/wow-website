@@ -21,13 +21,13 @@
     <div id="header-container"></div>
     <script>
         // Fetch and insert the header using JavaScript
-        fetch('header.html')
+        fetch('/header.html')
             .then(response => response.text())
             .then(html => {
                 document.getElementById('header-container').innerHTML = html;
             });
     </script>
     <div class="main-text">Opps Something went wrong</div>
-    <p>Error: <%= error %></p>
+    <p><%= error %></p>
 </body>
 </html>

@@ -1,7 +1,11 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-// Create a transporter using your email service provider's SMTP settings
+// Emails are not working because the oath 2 set up expired
+// I will need to set something else up that works better probably with another email service provider
+
+
+// Checking to see if the env vars are set up
 console.log(
 !process.env.CLIENT_ID ||
     !process.env.CLIENT_SECRET ||

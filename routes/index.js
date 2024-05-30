@@ -255,7 +255,7 @@ router.post("/update-vouch-open-visits", (req, res) => {
 // View user page endpoints
 
 // pulls up info for a specific user to display on the page
-router.get("/user/:firstName/:lastName", (req, res) => {
+router.get("/user/:firstName/:lastName", (req, res, next) => {
     const { firstName, lastName } = req.params;
 
     const query = "SELECT * FROM names WHERE firstName = ? AND lastName = ?";
@@ -294,7 +294,8 @@ router.get("/user/:firstName/:lastName", (req, res) => {
             });
         } else {
             // User not found
-            res.status(404).send("User not found");
+            // res.status(404).send("User not found");
+            next();
         }
     });
 });
@@ -306,7 +307,6 @@ router.post("/edit-name", (req, res) => {
 
     const newfirst = req.body.newfirst;
     const newlast = req.body.newlast;
-    console.log(oldfirst, oldlast, newfirst, newlast);
 
     db.run(
         "UPDATE names SET firstName = ?, lastName = ? WHERE firstName = ? AND lastName = ?",
