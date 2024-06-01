@@ -7,17 +7,6 @@ var router = express.Router();
 // Render Page endpoints
 
 
-// 
-router.get('/', (req, res) => {
-    res.render('signIn');
-});
-
-
-// sign in endpoint
-router.get('/sign-in', (req, res) => {
-    res.redirect('/attendance-settings')
-});
-
 
 // attendance-settings
 // attendance-settings is where you choose a class to take attendance for
