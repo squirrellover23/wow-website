@@ -6,8 +6,6 @@ var router = express.Router();
 
 // Render Page endpoints
 
-
-
 // attendance-settings
 // attendance-settings is where you choose a class to take attendance for
 router.get("/attendance-settings", function (req, res) {

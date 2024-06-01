@@ -1,19 +1,22 @@
 const express = require("express");
+const { db } = require("../database");
 
 var router = express.Router();
 
-router.use("*", function (req, res, next) {
-    console.log("authenticating");
-    const authToken = req.cookies['token'];
-
-    if (authToken) {
-        console.log('have token')
-        next();
-        
-    } else {
-        console.log('no token')
-        res.redirect('/')
-    }
+router.use("*", (req, res, next) => {
+    const authToken = req.cookies["token"];
+    db.get(
+        "SELECT 1 FROM auth_tokens WHERE token = ? LIMIT 1;",
+        [authToken],
+        (err, row) => {
+            if (err) {
+                console.error(err);
+            } else if (row) {
+                next();
+            } else {
+                res.redirect("/");
+            }
+        }
+    );
 });
-
 module.exports = router;

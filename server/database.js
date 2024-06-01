@@ -1,5 +1,5 @@
 const sqlite3 = require("sqlite3");
-const db = new sqlite3.Database("../database.db");
+const db = new sqlite3.Database("./database.db");
 db.serialize(() => {
     db.run(
         "CREATE TABLE IF NOT EXISTS names (firstName TEXT COLLATE NOCASE, lastName TEXT COLLATE NOCASE, total_visits INT DEFAULT 0, enrolled_class_visits INT DEFAULT 0, open_class_visits INT DEFAULT 0, visits_since_vouch INT DEFAULT 0, vouchers_received INT DEFAULT 0, lastLoginTime INT DEFAULT 0)"
@@ -12,6 +12,9 @@ db.serialize(() => {
     );
     db.run(
         "CREATE TABLE IF NOT EXISTS vouchers_given(firstName TEXT COLLATE NOCASE, lastName TEXT COLLATE NOCASE, time_given DATETIME)"
+    );
+    db.run(
+        "CREATE TABLE IF NOT EXISTS auth_tokens(token TEXT COLLATE NOCASE, time_created DATETIME, uses INT DEFAULT 0)"
     );
 });
 
