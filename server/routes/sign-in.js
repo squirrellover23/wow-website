@@ -1,18 +1,27 @@
 const express = require("express");
+const uuid = require("uuid");
+
+// token: uuid.v4();
+const password = "hello";
 
 var router = express.Router();
 
 router.get("/", (req, res) => {
-    res.render("sign-in");
+    const authToken = req.cookies["token"];
+
+    if (authToken && checkToken(authToken)) {
+        res.redirect("/attendance-settings");
+    } else {
+        res.render('sign-in')
+    }
+    
 });
 
 router.post("/sign-in", (req, res) => {
-    if (true) {
-        console.log('Sucess')
-        setAuthCookie(res, 'tokenvalue')
+    if (req.body.password) {
+        setAuthCookie(res, "tokenvalue");
         res.redirect("/attendance-settings");
     } else {
-        console.log('Failed')
         res.status(401).send("Unauthorized");
     }
 });
@@ -25,7 +34,9 @@ function setAuthCookie(res, authToken) {
     });
 }
 
+function checkToken(token) {
+    
+}
+
+
 module.exports = router;
-
-
-
