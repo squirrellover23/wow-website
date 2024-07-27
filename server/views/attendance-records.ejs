@@ -4,8 +4,8 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Attendance Logs</title>
-    <link rel="stylesheet" href="stylesheets/attendance-attempts.css">
+    <title>Attendance Records</title>
+    <link rel="stylesheet" href="stylesheets/attendance-records.css">
     
 </head>
 <body>
@@ -21,7 +21,7 @@
     <h1>Attendance Logs</h1>
     
 
-    <form action="/attendance-attempts" method="GET">
+    <form action="/attendance-records" method="GET">
         <h2 style="font-size: 20px; margin-bottom: 15px; margin-top: 0px;">Filter Records</h2>
         <label for="user_id">Student Name</label>
         <input type="text" id="user_id" name="user_id" placeholder="First Last" value="<%= user_id %>">

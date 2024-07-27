@@ -113,7 +113,7 @@ router.get("/archived-classes", (req, res) => {
 });
 
 // All Attendance info
-router.get("/attendance-attempts", (req, res) => {
+router.get("/attendance-records", (req, res) => {
     // Check if user_id, start date, and end date are provided in the query parameters
     const { user_id, user_class, startDate, endDate } = req.query;
     let query = "SELECT * FROM login_logs WHERE 1=1"; // 1=1 for dynamic WHERE clause building
@@ -154,7 +154,7 @@ router.get("/attendance-attempts", (req, res) => {
                 if (err) {
                     res.status(500).send("Error fetching class data.");
                 }
-                res.render("attendance-attempts", {
+                res.render("attendance-records", {
                     attendanceAttempts: rows,
                     user_id,
                     user_class,
