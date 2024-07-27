@@ -4,12 +4,78 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Sign In</title>
+        <style>
+            body {
+                font-size: 24px;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            #container {
+                margin: 0;
+                background-color: #191248;
+                padding: 20px;
+                display: flex;
+            }
+
+            #logo {
+                max-height: 50px;
+            }
+            #error-text {
+                margin-top: 20px;
+                margin-bottom: 20px;
+
+                color: white;
+                background-color: red;
+            }
+        </style>
     </head>
     <body>
-        <form action="/sign-in" method="post">
+        <div id="container">
+            <img id="logo" src="/images/small-logo.png" alt="Logo" />
+        </div>
+        <div display="none" id="error-text"></div>
+
+        <form id="loginForm" action="/sign-in" method="post">
             <h2>Enter password:</h2>
-            <input required type="password" name="password" />
+            <input id="password" type="password" name="password" required />
             <button type="submit">Continue</button>
         </form>
+        <script>
+            document
+                .getElementById("loginForm")
+                .addEventListener("submit", async function (event) {
+                    event.preventDefault(); // Prevent the default form submission
+                    const passwordInput = document.getElementById("password");
+                    const password = passwordInput.value;
+
+                    const response = await fetch("/sign-in", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ password: password }),
+                    });
+
+                    if (response.ok) {
+                        // Handle successful login, e.g., redirect or display a success message
+                        window.location.href = "/attendance-settings"; // Redirect to a dashboard or another page
+                    } else {
+                        // Handle error response
+                        const errorText = await response.text();
+                        const error_element =
+                            document.getElementById("error-text");
+                        error_element.textContent = errorText;
+                        error_element.display = "block";
+                        this.reset();
+                        setTimeout(() => {
+                            error_element.textContent = "";
+                            error_element.display = "none";
+                        }, 5000);
+                    }
+                });
+        </script>
     </body>
 </html>
