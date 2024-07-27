@@ -2,13 +2,14 @@ const express = require("express");
 const { db } = require("../database");
 const uuid = require("uuid");
 
+// one week in milliseconds
+const maxTokenAge = 604800000;
 const password = "hello";
 
 var router = express.Router();
 
 router.get("/", (req, res) => {
     const authToken = req.cookies["token"];
-    console.log("Token: " + authToken);
     db.get(
         "SELECT 1 FROM auth_tokens WHERE token = ? LIMIT 1;",
         [authToken],
@@ -25,7 +26,6 @@ router.get("/", (req, res) => {
 });
 
 router.post("/sign-in", (req, res) => {
-    console.log(req.body.password);
     if (req.body.password === password) {
         const token = uuid.v4();
         const currentDate = new Date().toISOString();
@@ -39,18 +39,39 @@ router.post("/sign-in", (req, res) => {
             }
         );
         setAuthCookie(res, token);
+        clearOldTokens();
         res.redirect("/attendance-settings");
     } else {
         res.status(401).send("Unauthorized");
     }
 });
 
+function clearOldTokens() {
+    const currentDate = new Date();
+    const expiredDateMillis = currentDate.getTime() - maxTokenAge;
+    const expiredDate = new Date(expiredDateMillis)
+        .toISOString()
+        .slice(0, 19)
+        .replace("T", " ");
+    db.run(
+        "DELETE FROM auth_tokens WHERE time_created <= ?",
+        expiredDate,
+        function (err) {
+            if (err) {
+                console.error(err.message);
+                return err.message;
+            }
+
+        }
+    );
+}
+
 function setAuthCookie(res, authToken) {
     res.cookie("token", authToken, {
         // secure: true,
         httpOnly: true,
         sameSite: "strict",
-        maxAge: 604800000,
+        maxAge: maxTokenAge,
     });
 }
 
