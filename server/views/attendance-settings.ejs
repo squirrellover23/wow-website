@@ -1,56 +1,78 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Attendance Settings</title>
-    <link rel="stylesheet" href="stylesheets/attendance-settings.css">
-</head>
-<body>
-    <div id="header-container"></div>
-    <script>
-        fetch('header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('header-container').innerHTML = html;
-            });
-    </script>
-    
-    <h2 class="main-text">Choose the class you want to take roll for</h2>
+    <head>
+        <title>Attendance Settings</title>
+        <link rel="stylesheet" href="stylesheets/attendance-settings.css" />
+    </head>
+    <body>
+        <div id="header-container"></div>
+        <script>
+            fetch("header.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    document.getElementById("header-container").innerHTML =
+                        html;
+                });
+        </script>
 
-    
-    <form action="/attendancePage" method="get" onsubmit="return validateForm()">
-        <h3>Closed Enrollment Classes</h3>
-        <% closedClasses.forEach(function(classItem) { %>
-            <input type="radio" name="classChosen" value="<%= classItem.className + ',' + classItem.registered %>" id="<%= classItem.className %>">
-            <label for="<%= classItem.className %>"><%= classItem.className %></label>
-            <br>
-        <% }); %>
-        <h3>Open Enrollment Classes</h3>
-        <% openClasses.forEach(function(classItem) { %>
-            <input type="radio" name="classChosen" value="<%= classItem.className + ',' + classItem.registered %>" id="<%= classItem.className %>">
-            <label for="<%= classItem.className %>"><%= classItem.className %></label>
-            <br>
-        <% }); %>
-        <button type="submit" id="continueButton" disabled>Continue</button>
-    </form>
-    <script>
-        function validateForm() {
-            var selectedOption = document.querySelector('input[name="classChosen"]:checked');
-    
-            if (!selectedOption) {
-                alert("Please select a class before continuing.");
-                return false;
+        <h2 class="main-text">Choose the class you want to take roll for</h2>
+
+        <form
+            action="/attendancePage"
+            method="get"
+            onsubmit="return validateForm()"
+        >
+            <h3>Closed Enrollment Classes</h3>
+            <% closedClasses.forEach(function(classItem) { %>
+            <input
+                type="radio"
+                name="classChosen"
+                value="<%= classItem.className + ',' + classItem.registered %>"
+                id="<%= classItem.className %>"
+            />
+            <label for="<%= classItem.className %>"
+                ><%= classItem.className %></label
+            >
+            <br />
+            <% }); %>
+            <h3>Open Enrollment Classes</h3>
+            <% openClasses.forEach(function(classItem) { %>
+            <input
+                type="radio"
+                name="classChosen"
+                value="<%= classItem.className + ',' + classItem.registered %>"
+                id="<%= classItem.className %>"
+            />
+            <label for="<%= classItem.className %>"
+                ><%= classItem.className %></label
+            >
+            <br />
+            <% }); %>
+            <button type="submit" id="continueButton" disabled>Continue</button>
+        </form>
+        <script>
+            function validateForm() {
+                var selectedOption = document.querySelector(
+                    'input[name="classChosen"]:checked'
+                );
+
+                if (!selectedOption) {
+                    alert("Please select a class before continuing.");
+                    return false;
+                }
+
+                return true;
             }
-    
-            return true;
-        }
-    
-        // Enable the continue button when an option is selected
-        var radioButtons = document.querySelectorAll('input[name="classChosen"]');
-        radioButtons.forEach(function (radioButton) {
-            radioButton.addEventListener('change', function () {
-                document.getElementById('continueButton').disabled = false;
+
+            // Enable the continue button when an option is selected
+            var radioButtons = document.querySelectorAll(
+                'input[name="classChosen"]'
+            );
+            radioButtons.forEach(function (radioButton) {
+                radioButton.addEventListener("change", function () {
+                    document.getElementById("continueButton").disabled = false;
+                });
             });
-        });
-    </script>
-</body>
+        </script>
+    </body>
 </html>

@@ -7,7 +7,6 @@
     <body>
         <div id="header-container"></div>
         <script>
-            // Fetch and insert the header using JavaScript
             fetch("header.html")
                 .then((response) => response.text())
                 .then((html) => {
@@ -123,8 +122,12 @@
             </form>
         </div>
         <br />
-        <button id="archived-classes-button" onclick="window.location.href = '/archived-classes'">View Archived Classes</button>
-
+        <button
+            id="archived-classes-button"
+            onclick="window.location.href = '/archived-classes'"
+        >
+            View Archived Classes
+        </button>
     </body>
     <script>
         function toggleEditForm(classId) {
@@ -137,16 +140,13 @@
             );
             const editButton = document.getElementById(`editButton_${classId}`);
 
-            // Toggle visibility
             if (editForm.style.display === "none") {
-                // Show the form and hide the button
                 editForm.style.display = "block";
-                editClassNameInput.value = classNameSpan.innerText; // Set the current class name in the input field
-                editButton.style.display = "none"; // Hide the "Edit" button
+                editClassNameInput.value = classNameSpan.innerText;
+                editButton.style.display = "none";
             } else {
-                // Hide the form and show the button
                 editForm.style.display = "none";
-                editButton.style.display = "inline"; // Show the "Edit" button
+                editButton.style.display = "inline";
             }
         }
 
@@ -154,9 +154,8 @@
             const editForm = document.getElementById(`editForm_${classId}`);
             const editButton = document.getElementById(`editButton_${classId}`);
 
-            // Hide the form and show the button
             editForm.style.display = "none";
-            editButton.style.display = "inline"; // Show the "Edit" button
+            editButton.style.display = "inline";
         }
 
         function confirmArchive() {

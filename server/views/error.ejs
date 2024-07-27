@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Error</title>
-    <style>
-        body {
-            font-size: 24px;
-            text-align: center;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+    <head>
+        <title>Error</title>
+        <style>
+            body {
+                font-size: 24px;
+                text-align: center;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+            }
 
-        .main-text {
-            font-size: 36px;
-            margin: 50px;
-        }
-    </style>
-</head>
-<body>
-    <div id="header-container"></div>
-    <script>
-        // Fetch and insert the header using JavaScript
-        fetch('/header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('header-container').innerHTML = html;
-            });
-    </script>
-    <div class="main-text">Opps Something went wrong</div>
-    <p><%= error %></p>
-</body>
+            .main-text {
+                font-size: 36px;
+                margin: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="header-container"></div>
+        <script>
+            fetch("/header.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    document.getElementById("header-container").innerHTML =
+                        html;
+                });
+        </script>
+        <div class="main-text">Opps Something went wrong</div>
+        <p><%= error %></p>
+    </body>
 </html>

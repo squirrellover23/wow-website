@@ -114,9 +114,8 @@ router.get("/archived-classes", (req, res) => {
 
 // All Attendance info
 router.get("/attendance-records", (req, res) => {
-    // Check if user_id, start date, and end date are provided in the query parameters
     const { user_id, user_class, startDate, endDate } = req.query;
-    let query = "SELECT * FROM login_logs WHERE 1=1"; // 1=1 for dynamic WHERE clause building
+    let query = "SELECT * FROM login_logs WHERE 1=1"; 
     const params = [];
 
     // If user_id is provided, filter by user_id
@@ -309,8 +308,6 @@ router.get("/user/:firstName/:lastName", (req, res, next) => {
                 }
             );
         } else {
-            // User not found
-            // res.status(404).send("User not found");
             next();
         }
     });

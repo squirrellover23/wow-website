@@ -6,14 +6,14 @@ const { send_email } = require("../email_control");
 
 
 /* GET users listing. */
-router.get("/email", function (req, res, next) {
-    send_email(
-        "petersonwingate@gmail.com",
-        "test email",
-        "yess!!! yes yes yes!! http://localhost:3000"
-    );
+// router.get("/email", function (req, res, next) {
+//     send_email(
+//         "petersonwingate@gmail.com",
+//         "test email",
+//         "yess!!! yes yes yes!! http://localhost:3000"
+//     );
 
-    res.send("test email");
-});
+//     res.send("test email");
+// });
 
 module.exports = router;

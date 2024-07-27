@@ -28,9 +28,6 @@ router.post("/updatevisit", (req, res) => {
                 const currentTime = Date.now();
 
                 if (currentTime - lastLoginTime >= 200 * 1000) {
-                    // User can log in (it's been at least 5 minutes)
-                    // Update the last login time
-                    //AND SET visited = visited + 1
                     var no_error = true;
                     const query_open =
                         "UPDATE names SET lastLoginTime = ?, total_visits = total_visits + 1, open_class_visits = open_class_visits + 1, visits_since_vouch = visits_since_vouch + 1 WHERE firstName = ? AND lastName = ?";
@@ -65,7 +62,6 @@ router.post("/updatevisit", (req, res) => {
                         );
                     }
                     if (no_error) {
-                        // email if
                         if (row.visits_since_vouch + 1 == 15) {
                             send_email(
                                 process.env.EMAIL ||

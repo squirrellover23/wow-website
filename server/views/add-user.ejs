@@ -1,104 +1,73 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>New Student</title>
-    <link rel="stylesheet" href="stylesheets/add-user.css">
-</head>
-<body>
-    <div id="header-container"></div>
-    <script>
-        // Fetch and insert the header using JavaScript
-        fetch('header.html')
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('header-container').innerHTML = html;
-            });
-    </script>
-    <h3 id="add-user-title">Add New Student</h3>
-    <div id="messageBox" class="message-box"></div>
-    <div class="centered-container">
-        <form id="newUserForm">
-            <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" required>
-            <br>
-            <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" required>
-            <br>
-            <button type="button" onclick="addUser()">Add User</button>
-        </form>
-    </div>
+    <head>
+        <title>New Student</title>
+        <link rel="stylesheet" href="stylesheets/add-user.css" />
+    </head>
+    <body>
+        <div id="header-container"></div>
+        <script>
+            fetch("header.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    document.getElementById("header-container").innerHTML =
+                        html;
+                });
+        </script>
+        <h3 id="add-user-title">Add New Student</h3>
+        <div id="messageBox" class="message-box"></div>
+        <div class="centered-container">
+            <form id="newUserForm">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required />
+                <br />
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required />
+                <br />
+                <button type="button" onclick="addUser()">Add User</button>
+            </form>
+        </div>
 
-    <!-- <input type="number" id="num-users" value="0">
-    <button onclick="addMassUsers()">make users</button> -->
-    <script>
-        /*
-        function addMassUsers(){
-            const numUsers = document.getElementById('num-users').value
-            for(let i=0; i < numUsers; i++){
+        <script>
+            function addUser() {
                 var formData = {
-                    firstName: `User${i}`,
-                    lastName: 'Smith',
+                    firstName: document
+                        .getElementById("firstName")
+                        .value.trim(),
+                    lastName: document.getElementById("lastName").value.trim(),
                 };
-        
-                // Perform client-side validation if needed
-        
-                // Make a POST request to the server
-                fetch('/addnewuser', {
-                    method: 'POST',
+
+                fetch("/addnewuser", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json',
+                        "Content-Type": "application/json",
                     },
                     body: JSON.stringify(formData),
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                    .then((response) => response.json())
+                    .then((data) => {
+                        var messageBox = document.getElementById("messageBox");
+                        messageBox.innerHTML = data.message;
+
+                        if (data.success) {
+                            messageBox.classList.add("success-message");
+                            document.getElementById("newUserForm").reset();
+                        } else {
+                            messageBox.classList.add("error-message");
+                        }
+
+                        setTimeout(() => {
+                            messageBox.innerHTML = "";
+                            messageBox.classList.remove(
+                                "success-message",
+                                "error-message"
+                            );
+                        }, 5000);
+                    })
+                    .catch((error) => {
+                        console.error("Error:", error);
+                    });
             }
-        } 
-        //*/
-
-        function addUser() {
-
-            // Get form data
-            var formData = {
-                firstName: document.getElementById("firstName").value.trim(),
-                lastName: document.getElementById("lastName").value.trim(),
-            };
-    
-            // Perform client-side validation if needed
-    
-            // Make a POST request to the server
-            fetch('/addnewuser', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response from the server
-                var messageBox = document.getElementById('messageBox');
-                messageBox.innerHTML = data.message;
-    
-                if (data.success) {
-                    messageBox.classList.add('success-message');
-                    document.getElementById('newUserForm').reset();
-                } else {
-                    messageBox.classList.add('error-message');
-                }
-    
-                // Clear the message after a certain duration
-                setTimeout(() => {
-                    messageBox.innerHTML = '';
-                    messageBox.classList.remove('success-message', 'error-message');
-                }, 5000); // Adjust the duration as needed
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-        }
-    </script>
-    
-</body>
+        </script>
+    </body>
 </html>

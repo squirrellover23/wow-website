@@ -3,8 +3,6 @@
     <head>
         <title>Student Information</title>
         <link rel="stylesheet" href="/stylesheets/user-info.css" />
-
-        <!-- Include your stylesheets and other head elements here -->
     </head>
     <body>
         <div id="header-container"></div>
@@ -34,7 +32,6 @@
                         name="lastName"
                         value="<%= user.lastName %>"
                     />
-                    <!-- Increase the size and font of the input box -->
                     <label for="newfirst">First</label>
                     <input
                         type="text"
@@ -61,9 +58,7 @@
                     >Update Corresponding Values:</label
                 >
                 <div class="toggle-container">
-                    <!-- Hidden checkbox for functionality -->
                     <input type="checkbox" id="update-vouchers-toggle" hidden />
-                    <!-- Styled label for the toggle switch -->
                     <label
                         class="toggle-switch-label"
                         for="update-vouchers-toggle"
@@ -89,7 +84,6 @@
             </div>
 
             <script>
-                // Function to toggle the popup
                 function togglePopup() {
                     const popup = document.getElementById("info-popup");
                     const displayStyle = window
@@ -97,14 +91,13 @@
                         .getPropertyValue("display");
 
                     if (displayStyle === "none") {
-                        popup.style.display = "flex"; // or 'block' based on your preference
+                        popup.style.display = "flex";
                     } else {
                         popup.style.display = "none";
                     }
                 }
             </script>
 
-            
             <div class="tables-container">
                 <table>
                     <head>
@@ -126,7 +119,6 @@
                                     name="lastName"
                                     value="<%= user.lastName %>"
                                 />
-                                <!-- Increase the size and font of the input box -->
                                 <input
                                     type="number"
                                     name="visits"
@@ -200,7 +192,6 @@
                                     name="lastName"
                                     value="<%= user.lastName %>"
                                 />
-                                <!-- Increase the size and font of the input box -->
                                 <input
                                     type="hidden"
                                     name="originalValue"
@@ -221,7 +212,6 @@
                         <td><%= user.vouchers_received %></td>
                     </tr>
                     <tr>
-                        <!-- <td>Give voucher</td> -->
                         <td colspan="2">
                             <form action="/givevoucher" method="post">
                                 <input
@@ -307,7 +297,6 @@
             const toggleStatus = document.getElementById("toggle-status");
 
             toggleSwitch.addEventListener("change", function () {
-                // Get the forms
                 const vouchVisitsForm = document.getElementById(
                     "update-vouch-visits-form"
                 );
@@ -316,18 +305,14 @@
                 );
 
                 if (this.checked) {
-                    // Change the action attribute to a different endpoint
                     vouchVisitsForm.action = "/update-vouch-open-visits";
                     openVisitsForm.action = "/update-vouch-open-visits";
 
-                    // Update toggle status
                     toggleStatus.textContent = "Enabled";
                 } else {
-                    // Reset the action attributes to the original endpoints
                     vouchVisitsForm.action = "/update-vouch-visits";
                     openVisitsForm.action = "/update-open-visits";
 
-                    // Update toggle status
                     toggleStatus.textContent = "Disabled";
                 }
             });
