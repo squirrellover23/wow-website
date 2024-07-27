@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Archived Classes</title>
+        <link rel="stylesheet" href="stylesheets/archived-classes.css" />
+    </head>
+    <body>
+        <div id="header-container"></div>
+        <script>
+            // Fetch and insert the header using JavaScript
+            fetch("header.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    document.getElementById("header-container").innerHTML =
+                        html;
+                });
+        </script>
+
+        <h1>All Archived Classes</h1>
+            <div class="table-container">
+                <% if (classes.length > 0) { %>
+                <table class="class-table">
+                    <thead>
+                        <tr>
+                            <th>Class Name</th>
+                            <th>Enrollment</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% classes.forEach(function(classItem) { %>
+                        <tr>
+                            <td>
+                                <span id="className_<%= classItem.id %>"
+                                    ><a href="/class/<%= classItem.className %>"
+                                        ><%= classItem.className %></a
+                                    ></span
+                                >
+                            </td>
+                            <td>Enrollment?</td>
+                            <td>
+                                <form
+                                    action="/deleteclass"
+                                    method="post"
+                                    onsubmit="return confirmDelete();"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="className"
+                                        value="<%= classItem.className %>"
+                                    />
+                                    <button type="submit" class="delete-button">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <% } else { %>
+                <p>No Archived Classes.</p>
+                <% } %>
+            </div>
+    </body>
+    <script>
+        function confirmDelete() {
+            return confirm("Are you sure you want to delete this class?");
+        }
+    </script>
+</html>

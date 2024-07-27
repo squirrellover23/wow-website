@@ -51,58 +51,6 @@ td {
     background-color: #fff;
 }
 
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    
-}
-.add-class {
-    width: 30%;
-    background-color: #fff;
-    padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4x;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin: 5px;
-}
-
-.add-class label {
-    font-weight: bold;
-}
-
-#noMargin {
-    margin: 8px;
-}
-
-input, select {
-    width: 60%;
-    padding: 10px;
-    margin: 5px 0 15px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-.cancel-button {
-    background-color: red;
-}
-.cancel-button:hover {
-    background-color: #dd0000;
-}
 
 .delete-button {
     background-color: red;
@@ -121,11 +69,4 @@ a {
 }
 a:hover {
     border-bottom: 2px solid rgb(15, 15, 15);
-}
-#archived-classes-button {
-    font-size: 17px;
-    position: fixed;
-    bottom: 10px;
-    left: 10px;
-    padding: 5px 10px;
 }

@@ -9,12 +9,12 @@ var router = express.Router();
 // attendance-settings
 // attendance-settings is where you choose a class to take attendance for
 router.get("/attendance-settings", function (req, res) {
-    db.all("SELECT * FROM classes WHERE registered = 0", (err, openClasses) => {
+    db.all("SELECT * FROM classes WHERE registered = 0 AND archived = 0", (err, openClasses) => {
         if (err) {
             res.status(500).send("Error Getting Classes");
         } else {
             db.all(
-                "SELECT * FROM classes WHERE registered = 1",
+                "SELECT * FROM classes WHERE registered = 1 AND archived = 0",
                 (err, closedClasses) => {
                     if (err) {
                         res.status(500).send("Error Getting Classes");
@@ -73,7 +73,7 @@ router.get("/viewusers", (req, res) => {
 // Renders the Classes page
 router.get("/classes", (req, res) => {
     db.all(
-        "SELECT * FROM classes WHERE registered = 1",
+        "SELECT * FROM classes WHERE registered = 1 AND archived = 0",
         (err, registeredClasses) => {
             if (err) {
                 res.status(500).send("Internal Server Error");
@@ -82,7 +82,7 @@ router.get("/classes", (req, res) => {
 
             // Fetch unregistered classes from the database
             db.all(
-                "SELECT * FROM classes WHERE registered = 0",
+                "SELECT * FROM classes WHERE registered = 0 AND archived = 0",
                 (err, unregisteredClasses) => {
                     if (err) {
                         res.status(500).send("Internal Server Error");
@@ -98,6 +98,18 @@ router.get("/classes", (req, res) => {
             );
         }
     );
+});
+
+router.get("/archived-classes", (req, res) => {
+    db.all("SELECT * FROM classes WHERE archived = 1", (err, classes) => {
+        if (err) {
+            res.status(500).send("Internal Server Error");
+            return;
+        }
+        res.render("archived-classes", {
+            classes: classes
+        });
+    });
 });
 
 // All Attendance info
@@ -491,6 +503,52 @@ router.post("/editclass", (req, res) => {
             }
         }
     );
+});
+
+// archive a class
+
+router.post("/archiveclass", (req, res) => {
+    const { className } = req.body;
+    db.run(
+        "UPDATE classes SET archived = 1 WHERE className = ?",
+        [className],
+        (err) => {
+            if (err) {
+                res.status(500).send("Error archiving the class.");
+            } else {
+                res.redirect("/classes");
+            }
+        }
+    );
+});
+
+router.get("/class/:className", (req, res, next) => {
+    const { className } = req.params;
+
+    const query = "SELECT * FROM classes WHERE className = ?";
+    db.get(query, [className], (err, classInfo) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send("Internal Server Error");
+        } else if (classInfo) {
+            const attendanceQuery = "SELECT * FROM login_logs WHERE class = ?";
+            db.all(attendanceQuery, [className], (err, attendanceRows) => {
+                if (err) {
+                    console.error(err.message);
+                    res.status(500).send("Internal Server Error");
+                } else {
+                    res.render("class-info", {
+                        classInfo: classInfo,
+                        attendance: attendanceRows,
+                    });
+                }
+            });
+        } else {
+            // User not found
+            // res.status(404).send("User not found");
+            next();
+        }
+    });
 });
 
 module.exports = router;

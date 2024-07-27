@@ -52,7 +52,7 @@
             </tr>
             <% attendanceAttempts.reverse().forEach(attempt => { %>
                 <tr>
-                    <td><%= attempt.class %></td>
+                    <td><a href="/class/<%= attempt.class %>"><%= attempt.class %></a></td>
                     <td><a href="/user/<%= attempt.firstName %>/<%= attempt.lastName %>"><%= attempt.firstName %> <%= attempt.lastName %></a></td>
                     <td><%= attempt.login_time %></td>
                 </tr>

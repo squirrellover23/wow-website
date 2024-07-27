@@ -8,7 +8,7 @@ db.serialize(() => {
         "CREATE TABLE IF NOT EXISTS login_logs (id INTEGER PRIMARY KEY, class TEXT COLLATE NOCASE, firstName TEXT COLLATE NOCASE, lastName TEXT COLLATE NOCASE, login_time DATETIME);"
     );
     db.run(
-        "CREATE TABLE IF NOT EXISTS classes(id INTEGER PRIMARY KEY, className TEXT COLLATE NOCASE, registered BOOLEAN, retired BOOLEAN)"
+        "CREATE TABLE IF NOT EXISTS classes(id INTEGER PRIMARY KEY, className TEXT COLLATE NOCASE, registered BOOLEAN, archived BOOLEAN DEFAULT 0)"
     );
     db.run(
         "CREATE TABLE IF NOT EXISTS vouchers_given(firstName TEXT COLLATE NOCASE, lastName TEXT COLLATE NOCASE, time_given DATETIME)"

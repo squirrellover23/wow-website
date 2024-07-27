@@ -42,7 +42,7 @@ router.post("/sign-in", (req, res) => {
         clearOldTokens();
         res.redirect("/attendance-settings");
     } else {
-        res.status(401).send("Unauthorized");
+        res.status(401).send("Incorrect Password");
     }
 });
 

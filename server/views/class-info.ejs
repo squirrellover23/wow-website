@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Class Info</title>
+        <link rel="stylesheet" href="/stylesheets/class-info.css" />
+    </head>
+    <body>
+        <div id="header-container"></div>
+        <script>
+            // Fetch and insert the header using JavaScript
+            fetch("/header.html")
+                .then((response) => response.text())
+                .then((html) => {
+                    document.getElementById("header-container").innerHTML =
+                        html;
+                });
+        </script>
+
+        <h1>
+            <%= classInfo.className %><%= classInfo.archived ? ' (Archived)' : ''
+            %>
+        </h1>
+
+        <div id="change-name">
+            <h3 id="change-name-title">Change name:</h3>
+            <form action="/editclass" method="post">
+                <input
+                    type="hidden"
+                    name="className"
+                    value="<%= classInfo.className %>"
+                />
+
+                <input
+                    type="text"
+                    name="newname"
+                    value="<%= classInfo.className %>"
+                    class="bigger-input-text"
+                    required
+                />
+
+                <button type="submit">Update</button>
+            </form>
+        </div>
+        <h3 id='attendance-tag'>Total Attendance: <%= attendance.length %></h3>
+        <% if (attendance.length > 0) { %>
+        <table id="login-table">
+            <tr>
+                <th>Student</th>
+                <th>Login Time</th>
+            </tr>
+            <% attendance.reverse().forEach(attempt => { %>
+            <tr>
+                <td>
+                    <a
+                        href="/user/<%= attempt.firstName %>/<%= attempt.lastName %>"
+                        ><%= attempt.firstName %> <%= attempt.lastName %></a
+                    >
+                </td>
+                <td><%= attempt.login_time %></td>
+            </tr>
+            <% }); %>
+        </table>
+        <% } else { %>
+        <p id="no-attendance">No attendance Records</p>
+        <% } %>
+        <div id="button-container">
+        <form
+            id="archive-class-button"
+            action="/archiveclass"
+            method="post"
+            onsubmit="return confirmChange('archive');"
+        >
+            <input
+                type="hidden"
+                name="className"
+                value="<%= classInfo.className %>"
+            />
+            <button type="submit" class="delete-button">Archive</button>
+        </form>
+        <br>
+        <form
+            action="/deleteclass"
+            method="post"
+            onsubmit="return confirmChange('delete');"
+        >
+            <input
+                type="hidden"
+                name="className"
+                value="<%= classInfo.className %>"
+            />
+            <button type="submit" class="delete-button">Delete</button>
+        </form>
+        </div>
+
+        <script>
+            function get_time(time) {
+                return new Date(time).toLocaleString();
+            }
+            let table = document.getElementById("login-table");
+            if (table) {
+                for (let i = 1; i < table.rows.length; i++) {
+                    let row = table.rows[i];
+                    let cell = row.cells[row.cells.length - 1];
+                    cell.innerHTML = get_time(cell.innerHTML);
+                }
+            }
+            function confirmChange(text) {
+                return confirm(`Are you sure you want to ${text} this class?`);
+            }
+        </script>
+    </body>
+</html>
