@@ -47,7 +47,7 @@ router.post("/sign-in", (req, res) => {
 
 function setAuthCookie(res, authToken) {
     res.cookie("token", authToken, {
-        secure: true,
+        // secure: true,
         httpOnly: true,
         sameSite: "strict",
         maxAge: 604800000,
