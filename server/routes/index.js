@@ -31,12 +31,12 @@ router.get("/attendance-settings", function (req, res) {
 });
 
 // Renders the add user page
-router.get("/adduser", (req, res) => {
-    res.render("adduser");
+router.get("/add-user", (req, res) => {
+    res.render("add-user");
 });
 
-// Gets info for the viewusers page
-router.get("/viewusers", (req, res) => {
+// Gets info for the view-users page
+router.get("/view-users", (req, res) => {
     db.all(
         "SELECT firstName, lastName, visits_since_vouch FROM names",
         (err, rows) => {
@@ -64,7 +64,7 @@ router.get("/viewusers", (req, res) => {
                     }
                     // names must be equal
                 });
-                res.render("viewusers", { users: sort_rows });
+                res.render("view-users", { users: sort_rows });
             }
         }
     );
@@ -220,7 +220,7 @@ function update_visits(visits_to_update) {
         const referringPage = req.get("referer");
 
         if (!visits) {
-            res.redirect(referringPage || "/viewusers");
+            res.redirect(referringPage || "/view-users");
             return;
         }
         db.run(
@@ -230,7 +230,7 @@ function update_visits(visits_to_update) {
                 if (err) {
                     res.status(500).send("Error updating the visit count.");
                 } else {
-                    res.redirect(referringPage || "/viewusers"); // Redirect back to the "View Users" page
+                    res.redirect(referringPage || "/view-users"); // Redirect back to the "View Users" page
                 }
             }
         );
@@ -246,7 +246,7 @@ router.post("/update-vouch-open-visits", (req, res) => {
     const referringPage = req.get("referer");
     const diff = Number(visits) - Number(originalValue);
     if (!visits) {
-        res.redirect(referringPage || "/viewusers");
+        res.redirect(referringPage || "/view-users");
         return;
     }
     db.run(
@@ -256,7 +256,7 @@ router.post("/update-vouch-open-visits", (req, res) => {
             if (err) {
                 res.status(500).send("Error updating the visit count.");
             } else {
-                res.redirect(referringPage || "/viewusers"); // Redirect back to the "View Users" page
+                res.redirect(referringPage || "/view-users"); // Redirect back to the "View Users" page
             }
         }
     );
@@ -298,7 +298,7 @@ router.get("/user/:firstName/:lastName", (req, res, next) => {
                                     return;
                                 }
 
-                                res.render("userinfo", {
+                                res.render("user-info", {
                                     user: userRow,
                                     attendance: attendanceRows,
                                     vouchers: voucherRows,
@@ -385,7 +385,7 @@ router.post("/deleteuser", (req, res) => {
                         if (err) {
                             res.status(500).send("Error deleting the user.");
                         } else {
-                            res.redirect("/viewusers"); // Redirect back to the "View Users" page
+                            res.redirect("/view-users"); // Redirect back to the "View Users" page
                         }
                     }
                 );
@@ -411,7 +411,7 @@ router.post("/givevoucher", (req, res) => {
                     if (err) {
                         res.status(500).send("Error logging voucher info.");
                     } else {
-                        res.redirect(referringPage || "/viewusers");
+                        res.redirect(referringPage || "/view-users");
                     }
                 }
             );

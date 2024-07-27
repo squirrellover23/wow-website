@@ -37,7 +37,7 @@
                                     ></span
                                 >
                             </td>
-                            <td>Enrollment?</td>
+                            <td><%= classItem.registered ? 'Closed': 'Open'%></td>
                             <td>
                                 <form
                                     action="/deleteclass"
