@@ -8,6 +8,7 @@ var router = express.Router();
 
 router.get("/", (req, res) => {
     const authToken = req.cookies["token"];
+    debug.log(authToken);
     db.get(
         "SELECT 1 FROM auth_tokens WHERE token = ? LIMIT 1;",
         [authToken],
