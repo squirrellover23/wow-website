@@ -4,15 +4,17 @@ table {
     border-collapse: collapse;
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid #ccc;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     text-align: left;
     border: 1px solid #ddd;
-
 }
 
 th {
@@ -54,18 +56,18 @@ label {
     font-weight: bold;
 }
 
-input, select {
+input,
+select {
     width: calc(100% - 20px); /* Adjust the width and margin as needed */
     padding: 10px;
     margin: 5px 0 15px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
-    
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -86,7 +88,7 @@ button:hover {
     background-color: #ff7575; /* Light red background for rows with visits_until_vouch <= 0 */
 }
 
-.red-row td{
+.red-row td {
     background-color: #ff7575; /* Light red background for rows with visits_until_vouch <= 0 */
 }
 

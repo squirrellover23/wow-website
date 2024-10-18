@@ -4,7 +4,6 @@ const { send_email } = require("../email_control");
 
 // Test Features under development
 
-
 /* GET users listing. */
 // router.get("/email", function (req, res, next) {
 //     send_email(

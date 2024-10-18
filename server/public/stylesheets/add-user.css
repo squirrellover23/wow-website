@@ -1,6 +1,4 @@
-
 body {
-
     display: flex;
     flex-direction: column;
     font-size: 24px;
@@ -8,8 +6,6 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
-
-    
 }
 
 #add-user-title {
@@ -37,7 +33,8 @@ label {
     font-weight: bold;
 }
 
-input, select {
+input,
+select {
     width: calc(100% - 20px); /* Adjust the width and margin as needed */
     padding: 10px;
     margin: 5px 0 15px;
@@ -48,7 +45,7 @@ input, select {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -61,7 +58,6 @@ button:hover {
     background-color: #45a049;
 }
 
-
 #add-user-title {
     margin-left: 35px;
 }
@@ -70,18 +66,17 @@ button:hover {
     padding: 10px;
     margin-top: 10px;
     text-align: center;
-    
 }
 
 .success-message {
-    display:block;
+    display: block;
 
-    background-color: #4CAF50; /* Green */
+    background-color: #4caf50; /* Green */
     color: white;
 }
 
 .error-message {
     background-color: #f44336; /* Red */
     color: white;
-    display:block;
+    display: block;
 }

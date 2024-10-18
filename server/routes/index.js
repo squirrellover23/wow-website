@@ -9,25 +9,28 @@ var router = express.Router();
 // attendance-settings
 // attendance-settings is where you choose a class to take attendance for
 router.get("/attendance-settings", function (req, res) {
-    db.all("SELECT * FROM classes WHERE registered = 0 AND archived = 0", (err, openClasses) => {
-        if (err) {
-            res.status(500).send("Error Getting Classes");
-        } else {
-            db.all(
-                "SELECT * FROM classes WHERE registered = 1 AND archived = 0",
-                (err, closedClasses) => {
-                    if (err) {
-                        res.status(500).send("Error Getting Classes");
-                    } else {
-                        res.render("attendance-settings", {
-                            closedClasses: closedClasses,
-                            openClasses: openClasses,
-                        });
+    db.all(
+        "SELECT * FROM classes WHERE registered = 0 AND archived = 0",
+        (err, openClasses) => {
+            if (err) {
+                res.status(500).send("Error Getting Classes");
+            } else {
+                db.all(
+                    "SELECT * FROM classes WHERE registered = 1 AND archived = 0",
+                    (err, closedClasses) => {
+                        if (err) {
+                            res.status(500).send("Error Getting Classes");
+                        } else {
+                            res.render("attendance-settings", {
+                                closedClasses: closedClasses,
+                                openClasses: openClasses,
+                            });
+                        }
                     }
-                }
-            );
+                );
+            }
         }
-    });
+    );
 });
 
 // Renders the add user page
@@ -107,7 +110,7 @@ router.get("/archived-classes", (req, res) => {
             return;
         }
         res.render("archived-classes", {
-            classes: classes
+            classes: classes,
         });
     });
 });
@@ -115,7 +118,7 @@ router.get("/archived-classes", (req, res) => {
 // All Attendance info
 router.get("/attendance-records", (req, res) => {
     const { user_id, user_class, startDate, endDate } = req.query;
-    let query = "SELECT * FROM login_logs WHERE 1=1"; 
+    let query = "SELECT * FROM login_logs WHERE 1=1";
     const params = [];
 
     // If user_id is provided, filter by user_id
@@ -475,7 +478,7 @@ router.post("/deleteclass", (req, res) => {
 
 router.post("/editclass", (req, res) => {
     const oldClassName = req.body.oldClassName;
-    const newClassName = req.body.editClassName;
+    const newClassName = req.body.newClassName;
 
     db.run(
         "UPDATE classes SET className = ? WHERE className = ?",
@@ -512,6 +515,23 @@ router.post("/archiveclass", (req, res) => {
         (err) => {
             if (err) {
                 res.status(500).send("Error archiving the class.");
+            } else {
+                res.redirect("/classes");
+            }
+        }
+    );
+});
+
+// unarchive a class
+
+router.post("/unarchiveclass", (req, res) => {
+    const { className } = req.body;
+    db.run(
+        "UPDATE classes SET archived = 0 WHERE className = ?",
+        [className],
+        (err) => {
+            if (err) {
+                res.status(500).send("Error unarchiving the class.");
             } else {
                 res.redirect("/classes");
             }

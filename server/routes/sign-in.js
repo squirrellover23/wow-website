@@ -4,7 +4,7 @@ const uuid = require("uuid");
 
 // one week in milliseconds
 const maxTokenAge = 604800000;
-const password = "hello";
+const password = "English321!";
 
 var router = express.Router();
 
@@ -27,6 +27,7 @@ router.get("/", (req, res) => {
 
 router.post("/sign-in", (req, res) => {
     if (req.body.password === password) {
+        clearOldTokens();
         const token = uuid.v4();
         const currentDate = new Date().toISOString();
         db.run(
@@ -39,7 +40,6 @@ router.post("/sign-in", (req, res) => {
             }
         );
         setAuthCookie(res, token);
-        clearOldTokens();
         res.redirect("/attendance-settings");
     } else {
         res.status(401).send("Incorrect Password");
@@ -49,10 +49,7 @@ router.post("/sign-in", (req, res) => {
 function clearOldTokens() {
     const currentDate = new Date();
     const expiredDateMillis = currentDate.getTime() - maxTokenAge;
-    const expiredDate = new Date(expiredDateMillis)
-        .toISOString()
-        .slice(0, 19)
-        .replace("T", " ");
+    const expiredDate = new Date(expiredDateMillis).toISOString();
     db.run(
         "DELETE FROM auth_tokens WHERE time_created <= ?",
         expiredDate,
@@ -61,14 +58,12 @@ function clearOldTokens() {
                 console.error(err.message);
                 return err.message;
             }
-
         }
     );
 }
 
 function setAuthCookie(res, authToken) {
     res.cookie("token", authToken, {
-        // secure: true,
         httpOnly: true,
         sameSite: "strict",
         maxAge: maxTokenAge,

@@ -40,8 +40,14 @@ a:hover {
     border-bottom: 2px solid rgb(15, 15, 15);
 }
 
+.button-form {
+    display: flex;
+    justify-self: center;
+    align-items: center;
+}
+
 .delete-button {
-    margin: 20px;
+    margin: 10px;
     background-color: red;
     color: white;
     border: none;
@@ -53,13 +59,26 @@ a:hover {
     background-color: #dd0000;
 }
 
-#button-container {
-    display: flex;
-    /* justify-content:center; */
-    /* align-items: center; */
+.basic-button {
+    margin: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.basic-button:hover {
+    background-color: #45a049;
 }
 
-#change-name, 
+#button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 30px;
+    margin-right: 30px;
+}
+
 #attendance-tag {
     margin: 30px;
 }
@@ -69,7 +88,6 @@ a:hover {
 
 .bigger-input-text {
     font-size: 18px;
-    width: 20%;
 }
 
 #no-attendance {

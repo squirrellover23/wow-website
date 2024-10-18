@@ -1,19 +1,16 @@
 /* stylesheets/login-settings.css */
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
 }
 
-
 .main-text {
     color: #333;
     text-align: center;
-
 }
-
 
 form {
     max-width: 400px;
@@ -61,8 +58,6 @@ button[type="submit"] {
     cursor: pointer;
     margin-top: 10px;
     background-color: #4caf50;
-
-    
 }
 
 button[type="submit"]:hover {

@@ -4,11 +4,10 @@ body {
     text-align: center;
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
-    font-size: 18px;    
+    font-size: 18px;
     height: 100vh;
     margin: 0;
     padding: 0;
-
 }
 
 h1 {
@@ -31,14 +30,16 @@ table {
     width: 100%;
     border-collapse: collapse;
     text-align: center;
-
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid #ccc;
 }
 
-th, td {
+th,
+td {
     padding: 10px;
     border: 1px solid #ddd;
 }
@@ -55,7 +56,6 @@ td {
     display: flex;
     justify-content: center;
     align-items: center;
-    
 }
 .add-class {
     width: 30%;
@@ -75,7 +75,8 @@ td {
     margin: 8px;
 }
 
-input, select {
+input,
+select {
     width: 60%;
     padding: 10px;
     margin: 5px 0 15px;

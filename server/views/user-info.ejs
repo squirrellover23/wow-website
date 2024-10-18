@@ -248,13 +248,18 @@
                 <tbody>
                     <% attendance.reverse().forEach(login => { %>
                     <tr>
-                        <td><%= login.class %></td>
+                        <td>
+                            <a href="/class/<%= login.class %>"
+                                ><%= login.class %></a
+                            >
+                        </td>
                         <td><%= login.login_time %></td>
                     </tr>
                     <% }); %>
                 </tbody>
             </table>
             <h2>Voucher History</h2>
+            <% if (vouchers.length > 0) { %>
             <table id="voucher-table">
                 <thead>
                     <tr>
@@ -269,6 +274,9 @@
                     <% }); %>
                 </tbody>
             </table>
+            <% } else { %>
+            <p> This student has not received any vouchers.</p>
+            <% } %>
             <br />
             <br />
             <form

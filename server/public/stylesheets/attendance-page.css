@@ -26,7 +26,6 @@
 .popup-box .close-button {
     padding: 10px 20px; /* Adjust the size of the close button */
     font-size: 18px;
-
 }
 
 body {
@@ -59,7 +58,6 @@ main {
     height: 50vh;
 }
 
-
 .square-form {
     font-size: 40px;
     text-align: center;
@@ -69,7 +67,6 @@ main {
     border: 1px solid #ccc;
     border-radius: 10px;
     box-sizing: border-box;
-
 }
 
 /* Optional: Style the form elements inside the square */
@@ -110,7 +107,7 @@ button[type="submit"] {
     left: 10px;
 }
 
-#class-name{
+#class-name {
     font-size: larger;
 }
 

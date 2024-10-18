@@ -1,9 +1,8 @@
 body {
     margin: 0;
-    
 }
 main {
-    font-family: 'Arial', sans-serif;
+    font-family: "Arial", sans-serif;
     margin: 35px;
     font-size: larger;
 }
@@ -12,10 +11,17 @@ h1 {
     text-align: center;
 }
 
-h1, h2 {
+h1,
+h2 {
     color: #333;
 }
-
+a {
+    text-decoration: none;
+    color: black;
+}
+a:hover {
+    border-bottom: 2px solid rgb(15, 15, 15);
+}
 
 table {
     border-collapse: collapse;
@@ -23,7 +29,8 @@ table {
     width: 50%;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
@@ -62,7 +69,7 @@ th {
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #4caf50;
     color: #fff;
     padding: 10px 15px;
     border: none;
@@ -96,22 +103,21 @@ button:hover {
     background-color: #dd0000;
 }
 
-  
-input, select {
+input,
+select {
     width: calc(100% - 20px); /* Adjust the width and margin as needed */
     padding: 10px;
     margin: 3px;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
-    
 }
 .bigger-input {
     font-size: 20px; /* Increase font size */
     width: 60px; /* Increase the width as needed */
 }
 
-#change-name{
+#change-name {
     margin-top: 20px;
 }
 
@@ -151,7 +157,7 @@ input, select {
 }
 
 .toggle-switch-label:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 2px;
     left: 2px;
@@ -163,7 +169,7 @@ input, select {
 }
 
 #update-vouchers-toggle:checked + .toggle-switch-label {
-    background-color: #4CAF50; /* Green when enabled */
+    background-color: #4caf50; /* Green when enabled */
 }
 
 #update-vouchers-toggle:checked + .toggle-switch-label:before {
@@ -173,7 +179,7 @@ input, select {
 .more-info-button {
     display: inline-block; /* Keep the button inline */
     margin-left: 10px;
-    background-color: #2196F3;
+    background-color: #2196f3;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -214,4 +220,3 @@ input, select {
 .close:focus {
     color: #000;
 }
-

@@ -26,7 +26,6 @@
                     <thead>
                         <tr>
                             <th>Class Name</th>
-                            <th>Edit</th>
                             <th>Archive</th>
                         </tr>
                     </thead>
@@ -39,44 +38,6 @@
                                         ><%= classItem.className %></a
                                     ></span
                                 >
-                            </td>
-                            <td>
-                                <button
-                                    id="editButton_<%= classItem.id %>"
-                                    onclick="toggleEditForm('<%= classItem.id %>')"
-                                >
-                                    Edit
-                                </button>
-                                <form
-                                    id="editForm_<%= classItem.id %>"
-                                    action="/editclass"
-                                    method="post"
-                                    style="display: none"
-                                >
-                                    <input
-                                        type="hidden"
-                                        name="oldClassName"
-                                        value="<%= classItem.className %>"
-                                    />
-                                    <label for="editClassName"
-                                        >Edit Name:</label
-                                    >
-                                    <input
-                                        type="text"
-                                        id="editClassName_<%= classItem.id %>"
-                                        name="editClassName"
-                                        required
-                                    />
-                                    <br />
-                                    <button type="submit">Save</button>
-                                    <button
-                                        type="button"
-                                        class="cancel-button"
-                                        onclick="cancelEditForm('<%= classItem.id %>')"
-                                    >
-                                        Cancel
-                                    </button>
-                                </form>
                             </td>
                             <td>
                                 <form
@@ -130,34 +91,6 @@
         </button>
     </body>
     <script>
-        function toggleEditForm(classId) {
-            const classNameSpan = document.getElementById(
-                `className_${classId}`
-            );
-            const editForm = document.getElementById(`editForm_${classId}`);
-            const editClassNameInput = document.getElementById(
-                `editClassName_${classId}`
-            );
-            const editButton = document.getElementById(`editButton_${classId}`);
-
-            if (editForm.style.display === "none") {
-                editForm.style.display = "block";
-                editClassNameInput.value = classNameSpan.innerText;
-                editButton.style.display = "none";
-            } else {
-                editForm.style.display = "none";
-                editButton.style.display = "inline";
-            }
-        }
-
-        function cancelEditForm(classId) {
-            const editForm = document.getElementById(`editForm_${classId}`);
-            const editButton = document.getElementById(`editButton_${classId}`);
-
-            editForm.style.display = "none";
-            editButton.style.display = "inline";
-        }
-
         function confirmArchive() {
             return confirm("Are you sure you want to archive this class?");
         }
