@@ -6,14 +6,7 @@ const uuid = require("uuid");
 const maxTokenAge = 604800000;
 let password = "hello";
 
-db.get("SELECT word FROM password WHERE id = 1", (err, row) => {
-    if (err) {
-        console.log("Error getting password:");
-        console.log(err);
-    } else if (row) {
-        password = row['word'];
-    }
-});
+
 var router = express.Router();
 
 router.get("/", (req, res) => {
@@ -34,6 +27,14 @@ router.get("/", (req, res) => {
 });
 
 router.post("/sign-in", (req, res) => {
+    db.get("SELECT word FROM password WHERE id = 1", (err, row) => {
+        if (err) {
+            console.log("Error getting password:");
+            console.log(err);
+        } else if (row) {
+            password = row["word"];
+        }
+    });
     if (req.body.password === password) {
         clearOldTokens();
         const token = uuid.v4();
