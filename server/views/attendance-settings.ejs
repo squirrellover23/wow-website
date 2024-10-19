@@ -55,6 +55,18 @@
             <% }); %>
             <button type="submit" id="continueButton" disabled>Continue</button>
         </form>
+        <form action="/update-password" method="post">
+            <h3>Change Password For Website</h3>
+            <input
+                type="text"
+                name="newPassword"
+                value=""
+                class="bigger-input-text"
+                required
+            />
+
+            <button type="submit" class="basic-button">Update</button>
+        </form>
         <script>
             function validateForm() {
                 var selectedOption = document.querySelector(
