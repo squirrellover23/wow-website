@@ -568,4 +568,21 @@ router.get("/class/:className", (req, res, next) => {
     });
 });
 
+// change password endpoints
+
+router.post("/update-password", (req, res) => {
+    const { newPassword } = req.body;
+    db.run(
+        "UPDATE password SET word = ? WHERE id = 1",
+        [newPassword],
+        (err) => {
+            if (err) {
+                res.status(500).send("Error changing the password.");
+            } else {
+                res.redirect("/");
+            }
+        }
+    );
+});
+
 module.exports = router;

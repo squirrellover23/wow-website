@@ -16,6 +16,24 @@ db.serialize(() => {
     db.run(
         "CREATE TABLE IF NOT EXISTS auth_tokens(token TEXT COLLATE NOCASE, time_created DATETIME, uses INT DEFAULT 0)"
     );
+    db.run(
+        "CREATE TABLE IF NOT EXISTS password(id INTEGER PRIMARY KEY, word TEXT COLLATE BINARY)"
+    );
+    db.all("SELECT * FROM password", (err, row) => {
+        if (err) {
+            console.log(err);
+        } else if (row.length === 0) {
+            db.run(
+                "INSERT INTO password (word) VALUES (?)",
+                ["hello"],
+                (err) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                }
+            );
+        }
+    });
 });
 
 module.exports = { db };

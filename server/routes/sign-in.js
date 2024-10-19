@@ -4,8 +4,16 @@ const uuid = require("uuid");
 
 // one week in milliseconds
 const maxTokenAge = 604800000;
-const password = "English321!";
+let password = "hello";
 
+db.get("SELECT word FROM password WHERE id = 1", (err, row) => {
+    if (err) {
+        console.log("Error getting password:");
+        console.log(err);
+    } else if (row) {
+        password = row['word'];
+    }
+});
 var router = express.Router();
 
 router.get("/", (req, res) => {
